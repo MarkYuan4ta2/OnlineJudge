@@ -1,0 +1,77 @@
+.collection-head, .side-collection-image {
+    -webkit-box-shadow: inset 0 10px 20px rgba(0, 0, 0, .1);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .3)
+}
+
+.collection-card-image, .collection-head, .side-collection-image {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .3)
+}
+
+.collection-head {
+    padding: 1.5rem 0;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    box-shadow: inset 0 10px 20px rgba(0, 0, 0, .1);
+    color: #fff
+}
+
+.collection-head.small {
+    padding: .8rem 0
+}
+
+.collection-head.small .collection-title {
+    padding: 10px 0
+}
+
+.collection-head.small .collection-title h1.collection-header {
+    font-size: 30px
+}
+
+.collection-head a {
+    color: #fff
+}
+
+.collection-head a:hover {
+    text-decoration: none
+}
+
+.collection-head .collection-title {
+    display: table-cell;
+    padding: 20px 0;
+    vertical-align: middle
+}
+
+.collection-head .collection-info {
+    margin: 0
+}
+
+.collection-head .collection-info .meta-info {
+    margin-right: 15px
+}
+
+.collection-head .collection-info .avatar {
+    background-color: rgba(255, 255, 255, .7);
+    border: 1px solid rgba(255, 255, 255, .7)
+}
+
+.collection-head .collection-head .container {
+    position: relative
+}
+
+.collection-head .draft-tag {
+    position: absolute;
+    top: 0;
+    left: 0
+}
+
+.collection-head .collection-header {
+    margin-top: 0;
+    font-size: 45px;
+    line-height: 1.5;
+    font-weight: 400
+}
+
+.collection-head .collection-description {
+    position: relative;
+    font-size: 16px
+}

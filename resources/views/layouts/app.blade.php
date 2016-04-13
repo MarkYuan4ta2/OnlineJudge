@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>OnlineJudge</title>
+    <title>@yield('title')</title>
 
     <!-- Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
@@ -13,6 +13,15 @@
 
     <!-- Styles -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    {{--<link href="{{ asset('themes/default/css/header.css') }}">--}}
+    <!--各页面导入各自的样式表-->
+    @yield('style')
+    <link rel="shortcut icon" href="{{ asset('themes/default/images/ico/32.png') }}" sizes="32x32" type="image/png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('themes/default/images/ico/72.png') }}" type="image/png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{{ asset('themes/default/images/ico/120.png') }}" type="image/png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('themes/default/images/ico/152.png') }}" type="image/png"/>
+
 
     <style>
         body {
@@ -46,7 +55,11 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
+                    <li><a href="{{ url('/problems') }}">problems</a></li>
+                    <li><a href="{{ url('/submission') }}">submission</a></li>
+                    <li><a href="{{ url('/contests') }}">contests</a></li>
+                    <li><a href="{{ url('/groups') }}">groups</a></li>
+                    <li><a href="{{ url('/help') }}">help</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
