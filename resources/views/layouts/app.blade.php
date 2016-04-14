@@ -14,7 +14,8 @@
     <!-- Styles -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 
-    {{--<link href="{{ asset('themes/default/css/header.css') }}">--}}
+
+    <link href="{{ asset('themes/default/css/index.css') }}" rel="stylesheet" type="text/css">
     <!--各页面导入各自的样式表-->
     @yield('style')
     <link rel="shortcut icon" href="{{ asset('themes/default/images/ico/32.png') }}" sizes="32x32" type="image/png"/>
@@ -55,19 +56,19 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/problems') }}">problems</a></li>
-                    <li><a href="{{ url('/submission') }}">submission</a></li>
-                    <li><a href="{{ url('/contests') }}">contests</a></li>
-                    <li><a href="{{ url('/groups') }}">groups</a></li>
-                    <li><a href="{{ url('/help') }}">help</a></li>
+                    <li><a href="{{ url('/problems') }}">{{ trans('messages.problems') }}</a></li>
+                    <li><a href="{{ url('/submission') }}">{{ trans('messages.submission') }}</a></li>
+                    <li><a href="{{ url('/contests') }}">{{ trans('messages.contests') }}</a></li>
+                    <li><a href="{{ url('/groups') }}">{{ trans('messages.groups') }}</a></li>
+                    <li><a href="{{ url('/help') }}">{{ trans('messages.help') }}</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
+                        <li><a href="{{ url('/login') }}">{{ trans('messages.login') }}</a></li>
+                        <li><a href="{{ url('/register') }}">{{ trans('messages.register') }}</a></li>
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -75,8 +76,12 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
+                                @if(Auth::user()->is_admin)
+                                    <li><a href="{{ url('/admin') }}"><i class="fa fa-btn"></i>Admin</a></li>
+                                @endif
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
+
                         </li>
                     @endif
                 </ul>

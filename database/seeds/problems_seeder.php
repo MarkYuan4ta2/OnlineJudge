@@ -17,7 +17,7 @@ class problems_seeder extends Seeder
             'time_limit' => '10',
             'memory_limit' => '10',
             'difficulty' => 'easy',
-            'tag' => 'test',
+            'classification' => '0',
             'input_description' => str_random(10),
             'output_description' => str_random(10),
             'created_by' => str_random(10),

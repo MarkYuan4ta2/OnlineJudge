@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('style')
-    <link href="{{ asset('themes/default/css/index.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('themes/default/css/collection.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('themes/default/css/problems.css') }}" rel="stylesheet" type="text/css">
 @endsection
@@ -50,6 +49,11 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            <div class="col-md-3 col-lg-3">
+                @include('themes.default.User.announcements')
+                @include('themes.default.User.classification')
             </div>
         </div>
     </div>

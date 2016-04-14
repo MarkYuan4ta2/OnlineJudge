@@ -23,13 +23,11 @@ Route::group(['namespace' => 'User'], function () {
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
-    Route::get('/home', 'HomeController@index');
-    Route::get('/admin', 'AdminController@index');
+    Route::any('/home', 'HomeController@index');
 
-    Route::group(['namespace' => 'Admin', 'middleware' => 'adminCheck'], function () {
-        Route::get('admin/login', 'AuthController@getLogin');
-        Route::get('admin/register', 'AuthController@getRegister');
-        Route::post('admin/login', 'AuthController@postLogin');
-        Route::post('admin/register', 'AuthController@postRegister');
+    //admin pages
+    Route::group(['namespace' => 'Admin', 'middleware' => 'admin', 'prefix' => 'admin'], function () {
+        Route::get('/', 'AdminController@index');
+        Route::get('/addProblems', 'AdminController@addProblems');
     });
 });

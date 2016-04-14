@@ -20,7 +20,7 @@ class CreateProblemsTable extends Migration
             $table->integer('memory_limit');//内存限制
             $table->enum('difficulty', ['easy', 'middle', 'hard'])->default('easy');//难度
             $table->boolean('visible')->default(1);//是否可见
-            $table->string('tag');//标签
+            $table->integer('classification')->default(0);//分类
             $table->longText('input_description');//输入描述
             $table->longText('output_description');//输出描述
             $table->integer('total_submit_number')->default(0);//总共提交数量
