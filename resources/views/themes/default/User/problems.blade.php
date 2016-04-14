@@ -30,22 +30,25 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($problemList as $problem)
+                        @for($i = 0; $i < count($problemList); $i++)
                             <tr>
                                 <th>
-                                    <span class="">{{ $problem->id }}</span>
+                                    <span class="">{{$i+1}}</span>
                                 </th>
-                                <th scope="row"><a href="{{ URL::action('User\ProblemsController@problemDetail',array('id'=>$problem->id)) }}">{{ $problem->title }}</a></th>
-                                <td>{{ $problem->difficulty }}</td>
+                                <th scope="row"><a
+                                            href="{{ URL::action('User\ProblemsController@problemDetail',array('id'=>$problemList[$i]->id)) }}">{{ $problemList[$i]->title }}</a>
+                                </th>
+                                <td>{{ $problemList[$i]->difficulty }}</td>
                                 <td>
-                                    @if($problem->total_submit_number == 0 || $problem->total_accepted_number == 0)
+                                    @if($problemList[$i]->total_submit_number == 0 || $problem->total_accepted_number == 0)
                                         0%
                                     @else
-                                        {{ floor($problem->total_accepted_number/$problem->total_submit_number) }}%  ({{$problem->total_accepted_number}}/{{$problem->total_submit_number}})
+                                        {{ floor($problemList[$i]->total_accepted_number/$problem->total_submit_number) }}%
+                                        ({{$problemList[$i]->total_accepted_number}}/{{$problemList[$i]->total_submit_number}})
                                     @endif
                                 </td>
                             </tr>
-                        @endforeach
+                        @endfor
                         </tbody>
                     </table>
                 </div>
