@@ -5,11 +5,11 @@
 @endsection
 
 @section('content')
-    @include('themes.default.Admin.adminLeftBar')
-    <div class="container main">
+    <div class="container">
         <div class="row">
+            @include('themes.default.Admin.adminLeftBar')
             <div class="col-md-9 col-lg-9">
-
+                <h1>admin home</h1>
             </div>
         </div>
     </div>

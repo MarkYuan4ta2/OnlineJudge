@@ -15,6 +15,11 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <!--各页面导入各自的样式表-->
     @yield('style')
+    <link rel="shortcut icon" href="{{ asset('themes/default/images/ico/32.png') }}" sizes="32x32" type="image/png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('themes/default/images/ico/72.png') }}" type="image/png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{{ asset('themes/default/images/ico/120.png') }}" type="image/png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('themes/default/images/ico/152.png') }}" type="image/png"/>
+
 
     <style>
         body {
@@ -73,6 +78,7 @@
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    @yield('script')
 
 </body>
 </html>

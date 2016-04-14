@@ -28,6 +28,10 @@ Route::group(['middleware' => 'web'], function () {
     //admin pages
     Route::group(['namespace' => 'Admin', 'middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::get('/', 'AdminController@index');
-        Route::get('/addProblems', 'AdminController@addProblems');
+        Route::get('/list_problems', 'AdminController@listProblems');
+        Route::get('/add_problems', 'AdminController@addProblems');
+        Route::get('/edit_problems', 'AdminController@editProblems');
+        Route::get('/delete_problems', 'AdminController@deleteProblems');
+        Route::post('/save_problem', 'AdminController@saveProblems');//接收从add和edit传过来的表单
     });
 });

@@ -1,5 +1,5 @@
-.banner{
-    background-image:  url('../images/header.jpg');
+.banner {
+    background-image: url('../images/header.jpg');
 }
 
 .problem-tag {
@@ -10,4 +10,13 @@
 
 .choose {
     background-color: #5bc0de;
+}
+
+.right {
+    float: right;
+}
+
+.cl {
+    margin: 10px;
+    padding: 10px;
 }
