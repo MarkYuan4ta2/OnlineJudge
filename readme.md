@@ -1,1 +1,1 @@
-# An online judge website write by laravel5.2
+# A simple online judge website developed by laravel5.2
