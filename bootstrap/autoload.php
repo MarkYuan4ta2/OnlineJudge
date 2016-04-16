@@ -32,3 +32,8 @@ $compiledPath = __DIR__.'/cache/compiled.php';
 if (file_exists($compiledPath)) {
     require $compiledPath;
 }
+
+/**
+ * include my lib
+ */
+require __DIR__.'/../app/publicFunctions.php';

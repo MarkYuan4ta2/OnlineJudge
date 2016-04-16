@@ -45,7 +45,7 @@
                             <td>@if($problem->visible)可见@else不可见@endif</td>
                             <td>{{ $problem->total_accepted_number }}/{{ $problem->total_submit_number }}</td>
                             <td>
-                                @if((Auth::user()->is_admin != 2 and $problem->created_by == Auth::user()->id) or Auth::user()->is_admin == 2)
+                                @if(checkUserPriority($problem->created_by))
                                     <a href="{{ URL::action('Admin\AdminController@editProblems',array('id'=> $problem->id)) }}"
                                        class="btn btn-sm btn-info">编辑</a>
                                     <a href="{{ URL::action('Admin\AdminController@deleteProblems',array('id'=>$problem->id)) }}"
