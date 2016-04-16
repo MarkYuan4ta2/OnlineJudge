@@ -20,3 +20,7 @@
     margin: 10px;
     padding: 10px;
 }
+
+span.warning{
+    color: red;
+}

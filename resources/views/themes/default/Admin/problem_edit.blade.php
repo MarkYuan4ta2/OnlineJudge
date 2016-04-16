@@ -5,6 +5,8 @@
 @endsection
 
 @section('style')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/trix/0.9.6/trix.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/0.9.6/trix.js" type="text/javascript"></script>
     <link href="{{ asset('themes/default/css/index.css') }}" rel="stylesheet" type="text/css">
 @endsection
 
@@ -14,7 +16,7 @@
             @include('themes.default.Admin.adminLeftBar')
             <div class="col-md-9 col-lg-9">
                 <h1>@if(isset($_GET['id']))编辑题目@else新增题目@endif</h1>
-                <form id="problem_form" name="problem_form" method="post"
+                <form id="problem_form" name="problem_form" method="post" enctype="multipart/form-data"
                       action="{{ URL::action('Admin\AdminController@saveProblems')}}">
 
                     <div class="form-group col-md-12">
@@ -28,8 +30,10 @@
 
                     <div class="form-group col-md-12">
                         <label>题目描述</label>
-                        <textarea class="form-control"
-                                  name="description">@if(isset($problem)){{$problem->description}}@endif</textarea>
+                        {{--<textarea class="form-control"--}}
+                                  {{--name="description"></textarea>--}}
+                        <input type="hidden" id="description" name="description" value="@if(isset($problem)){{$problem->description}}@endif">
+                        <trix-editor input="description"></trix-editor>
                     </div>
 
 
@@ -74,54 +78,42 @@
                     </div>
                     <div class="col-md-12 form-group">
                         <label>输入描述</label><br>
-                        <textarea class="form-control" rows="5" name="input_description"
-                                  maxlength="10000">@if(isset($problem)){{$problem->input_description}}@endif</textarea>
+                        {{--<textarea class="form-control" rows="5" name="input_description"--}}
+                                  {{--maxlength="10000">@if(isset($problem)){{$problem->input_description}}@endif</textarea>--}}
+                        <input type="hidden" id="input_description" name="input_description" value="@if(isset($problem)){{$problem->input_description}}@endif">
+                        <trix-editor input="input_description"></trix-editor>
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="col-md-12 form-group">
                         <label>输出描述</label><br>
-                        <textarea class="form-control" rows="5"
-                                  name="output_description">@if(isset($problem)){{$problem->output_description}}@endif</textarea>
+                        {{--<textarea class="form-control" rows="5"--}}
+                                  {{--name="output_description">@if(isset($problem)){{$problem->output_description}}@endif</textarea>--}}
+                        <input type="hidden" id="output_description" name="output_description" value="@if(isset($problem)){{$problem->output_description}}@endif">
+                        <trix-editor input="output_description"></trix-editor>
                         <div class="help-block with-errors"></div>
                     </div>
-                    <div class="col-md-12"><br>
-                        <label>基本样例</label>
-                        <a href="javascript:void(0)" class="btn btn-primary btn-sm">添加</a>
 
-                        <div class="sample">
-                            <div class="panel panel-default sample-panel">
-                                <div class="panel-heading">
-                                    <span class="panel-title">样例 i</span>
-                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm">
-                                        删除
-                                    </a>
-                                </div>
-                                <div class="panel-body row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>样例输入</label>
-                                            <textarea class="form-control" rows="5"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>样例输出</label>
-                                            <textarea class="form-control" rows="5"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-md-12 form-group">
+                        <label>样例输入</label>
+                        <input type="hidden" id="test_case_in" name="test_case_in" value="@if(isset($problem)){{$problem->test_case_in}}@endif">
+                        <trix-editor input="test_case_in"></trix-editor>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>样例输出</label>
+                        <input type="hidden" id="test_case_out" name="test_case_out" value="@if(isset($problem)){{$problem->test_case_out}}@endif">
+                        <trix-editor input="test_case_out"></trix-editor>
                     </div>
 
                     <div class="form-group col-md-12">
                         <label>上传最终测试用例</label>
-                        <input type="text" class="form-control"
-                               value="@if(isset($problem)){{$problem->final_test_case_address}}@endif">
+                        <h5>输入<span class="warning">(文件名中不能含有中文)</span></h5>
+                        <input type="file" class="form-control" name="final_case_in">
+                        <h5>输出<span class="warning">(文件名中不能含有中文)</span></h5>
+                        <input type="file" class="form-control" name="final_case_out">
                         <div class="help-block with-errors"></div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="form-group col-md-12">
                         <input type="submit" class="btn btn-success btn-lg"
                                value="@if(isset($_GET['id']))确认编辑@else确认发布@endif" id="submitBtn">
                     </div>
