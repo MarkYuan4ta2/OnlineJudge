@@ -78,16 +78,12 @@
                     </div>
                     <div class="col-md-12 form-group">
                         <label>输入描述</label><br>
-                        {{--<textarea class="form-control" rows="5" name="input_description"--}}
-                                  {{--maxlength="10000">@if(isset($problem)){{$problem->input_description}}@endif</textarea>--}}
                         <input type="hidden" id="input_description" name="input_description" value="@if(isset($problem)){{$problem->input_description}}@endif">
                         <trix-editor input="input_description"></trix-editor>
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="col-md-12 form-group">
                         <label>输出描述</label><br>
-                        {{--<textarea class="form-control" rows="5"--}}
-                                  {{--name="output_description">@if(isset($problem)){{$problem->output_description}}@endif</textarea>--}}
                         <input type="hidden" id="output_description" name="output_description" value="@if(isset($problem)){{$problem->output_description}}@endif">
                         <trix-editor input="output_description"></trix-editor>
                         <div class="help-block with-errors"></div>
@@ -95,20 +91,28 @@
 
                     <div class="col-md-12 form-group">
                         <label>样例输入</label>
-                        <input type="hidden" id="test_case_in" name="test_case_in" value="@if(isset($problem)){{$problem->test_case_in}}@endif">
+                        <input type="hidden" id="test_case_in" name="test_case_in"
+                               value="@if(isset($problem)){{$problem->test_case_in}}@endif">
                         <trix-editor input="test_case_in"></trix-editor>
                     </div>
                     <div class="form-group col-md-12">
                         <label>样例输出</label>
-                        <input type="hidden" id="test_case_out" name="test_case_out" value="@if(isset($problem)){{$problem->test_case_out}}@endif">
+                        <input type="hidden" id="test_case_out" name="test_case_out"
+                               value="@if(isset($problem)){{$problem->test_case_out}}@endif">
                         <trix-editor input="test_case_out"></trix-editor>
                     </div>
 
                     <div class="form-group col-md-12">
                         <label>上传最终测试用例</label>
                         <h5>输入<span class="warning">(文件名中不能含有中文)</span></h5>
+                        @if(isset($problem->final_test_case_address_in))
+                            已上传:<a class="info">{{$problem->final_test_case_address_in}}</a>
+                        @endif
                         <input type="file" class="form-control" name="final_case_in">
                         <h5>输出<span class="warning">(文件名中不能含有中文)</span></h5>
+                        @if(isset($problem->final_test_case_address_out))
+                            已上传:<a class="info">{{$problem->final_test_case_address_out}}</a>
+                        @endif
                         <input type="file" class="form-control" name="final_case_out">
                         <div class="help-block with-errors"></div>
                     </div>

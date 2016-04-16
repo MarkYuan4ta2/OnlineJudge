@@ -16,7 +16,7 @@ class AdminCheck
      */
     public function handle($request, Closure $next)
     {
-        if (null != $request->user() and $request->user()->is_admin == 1) {
+        if (null != $request->user() and $request->user()->is_admin > 0) {
             return $next($request);
         }
         return redirect()->guest('');

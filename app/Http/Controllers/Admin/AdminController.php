@@ -69,9 +69,9 @@ class AdminController extends Controller
         $problem->test_case_out = $problem_form['test_case_out'];
         $problem->created_by = $request->user()->name;
 
-        //get random key by md5 created_by field and title field
+        //get random key by md5 created_by field and title field and current time stamp
         //the result of md5 might start with number, so add difficult field as header
-        $random_key = $problem->difficulty . md5($problem->created_by . $problem->title);
+        $random_key = $problem->difficulty . md5($problem->created_by . $problem->title . time());
         $problem->random_key = $random_key;
 
         //todo:add contest
