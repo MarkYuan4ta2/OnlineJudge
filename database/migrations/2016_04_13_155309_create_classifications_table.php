@@ -15,6 +15,7 @@ class CreateClassificationsTable extends Migration
         Schema::create('classifications', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('created_by');
             $table->integer('problems_count')->default(0);
             $table->timestamps();
         });

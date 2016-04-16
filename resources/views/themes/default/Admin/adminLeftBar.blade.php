@@ -18,7 +18,7 @@
                     新增题目
                 </p>
             </a>
-            <a href="{{ URL::action('Admin\AdminController@index',array('action'=>'classify')) }}"
+            <a href="{{ URL::action('Admin\AdminController@listClassifications',array('action'=>'classify')) }}"
                class="list-group-item @if(isset($_GET['action']) and $_GET['action']=='classify') choose @endif">
                 <p class="list-group-item-text">
                     题目分类

@@ -29,7 +29,7 @@
                     <tr>
                         <th>ID</th>
                         <th>题目</th>
-                        <th>创建时间</th>
+                        <th>最近时间</th>
                         <th>作者</th>
                         <th>可见</th>
                         <th>通过次数/提交总数</th>
@@ -39,8 +39,7 @@
                         <tr>
                             <td>{{ $problem->id }}</td>
                             <td>{{ $problem->title }}</td>
-                            <td>2016-4-14 16:27:54</td>
-                            {{--<td>{{ $problem->created_at }}</td>--}}
+                            <td>{{ $problem->updated_at or $problem->created_at }}</td>
                             <td>{{ $teacherList[$problem->created_by]['name'] }}</td>
                             <td>@if($problem->visible)可见@else不可见@endif</td>
                             <td>{{ $problem->total_accepted_number }}/{{ $problem->total_submit_number }}</td>

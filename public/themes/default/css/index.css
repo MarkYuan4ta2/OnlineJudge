@@ -21,9 +21,14 @@
     padding: 10px;
 }
 
-span.warning{
+.clear {
+    clear: both;
+}
+
+span.warning {
     color: red;
 }
-.info{
+
+.info {
     color: #5bc0de;
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Classification;
 use App\Problem;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class AdminController extends Controller
         $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
         $data = [
             'problemList' => $problemList,
-            'teacherList' => $teacherList
+            'teacherList' => $teacherList,
         ];
         return view('themes.default.Admin.problem_list', $data);
     }
@@ -37,12 +38,14 @@ class AdminController extends Controller
     function editProblems(Request $request)
     {
         $problem = Problem::where('id', $request->id)->first();
-        return view('themes.default.Admin.problem_edit', ['problem' => $problem]);
+        $data = [
+            'problem' => $problem,
+        ];
+        return view('themes.default.Admin.problem_edit', $data);
     }
 
     function deleteProblems(Request $request)
     {
-//        dd($request->id);
         Problem::destroy($request->id);
         //todo:
         //remove files associated with this problem
@@ -55,7 +58,6 @@ class AdminController extends Controller
     function saveProblems(Request $request)
     {
         $problem_form = $request->all();
-//        dd($problem_form);
 
         if (isset($problem_form['id'])) {
             $problem = Problem::where('id', $problem_form['id'])->first();
@@ -72,6 +74,7 @@ class AdminController extends Controller
         isset($problem_form['visible']) and $problem->visible = true or $problem->visible = false;
         $problem->input_description = $problem_form['input_description'];
         $problem->output_description = $problem_form['output_description'];
+        $problem->classification = $problem_form['classification'];
         $problem->test_case_in = $problem_form['test_case_in'];
         $problem->test_case_out = $problem_form['test_case_out'];
         $problem->created_by = $request->user()->id;
@@ -97,5 +100,39 @@ class AdminController extends Controller
         $problem->save();
 
         return redirect()->action('Admin\AdminController@listProblems');
+    }
+
+    function listClassifications()
+    {
+        //get teacher user list (include admin) index by id
+        $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+        $data = [
+            'teacherList' => $teacherList
+        ];
+        return view('themes.default.Admin.classification_list', $data);
+    }
+
+    function saveClassifications(Request $request)
+    {
+        if(isset($request->id)){//receive request from ajax post
+            $classification = Classification::where('id',$request->id)->first();
+            $return = 'succeed!';
+        }else{//receive request from form post
+            $classification = new Classification;
+            $return = redirect()->action('Admin\AdminController@listClassifications');
+        }
+
+        $classification->name = $request->name;
+        $classification->created_by = $request->user()->id;
+        $classification->save();
+
+        return $return;
+    }
+
+    function deleteClassifications(Request $request)
+    {
+        Classification::destroy($request->id);
+
+        return redirect()->action('Admin\AdminController@listClassifications');
     }
 }

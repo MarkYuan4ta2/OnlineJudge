@@ -31,8 +31,9 @@
                     <div class="form-group col-md-12">
                         <label>题目描述</label>
                         {{--<textarea class="form-control"--}}
-                                  {{--name="description"></textarea>--}}
-                        <input type="hidden" id="description" name="description" value="@if(isset($problem)){{$problem->description}}@endif">
+                        {{--name="description"></textarea>--}}
+                        <input type="hidden" id="description" name="description"
+                               value="@if(isset($problem)){{$problem->description}}@endif">
                         <trix-editor input="description"></trix-editor>
                     </div>
 
@@ -54,9 +55,17 @@
                     <div class="col-md-3">
                         <div class="form-group"><label>难度</label>
                             <select name="difficulty" class="form-control">
-                                <option value="easy"@if(isset($problem) and $problem->difficult=='easy') selected="selected"@endif>简单</option>
-                                <option value="middle"@if(isset($problem) and $problem->difficult=='middle') selected="selected"@endif>中等</option>
-                                <option value="hard"@if(isset($problem) and $problem->difficult=='hard') selected="selected"@endif>难</option>
+                                <option value="easy"
+                                        @if(isset($problem) and $problem->difficult=='easy') selected="selected"@endif>
+                                    简单
+                                </option>
+                                <option value="middle"
+                                        @if(isset($problem) and $problem->difficult=='middle') selected="selected"@endif>
+                                    中等
+                                </option>
+                                <option value="hard"
+                                        @if(isset($problem) and $problem->difficult=='hard') selected="selected"@endif>难
+                                </option>
                             </select>
                             <div class="help-block with-errors"></div>
                         </div>
@@ -64,9 +73,9 @@
                     <div id="tag" class="col-md-4">
                         <label>分类</label>
                         <select name="classification" class="form-control">
-                            <option value="1">简单</option>
-                            <option value="2">中等</option>
-                            <option value="3">难</option>
+                            @foreach($classificationList as $item)
+                                <option value="{{$item['id']}}">{{$item['name']}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-3 form-group">
@@ -78,13 +87,15 @@
                     </div>
                     <div class="col-md-12 form-group">
                         <label>输入描述</label><br>
-                        <input type="hidden" id="input_description" name="input_description" value="@if(isset($problem)){{$problem->input_description}}@endif">
+                        <input type="hidden" id="input_description" name="input_description"
+                               value="@if(isset($problem)){{$problem->input_description}}@endif">
                         <trix-editor input="input_description"></trix-editor>
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="col-md-12 form-group">
                         <label>输出描述</label><br>
-                        <input type="hidden" id="output_description" name="output_description" value="@if(isset($problem)){{$problem->output_description}}@endif">
+                        <input type="hidden" id="output_description" name="output_description"
+                               value="@if(isset($problem)){{$problem->output_description}}@endif">
                         <trix-editor input="output_description"></trix-editor>
                         <div class="help-block with-errors"></div>
                     </div>
@@ -128,7 +139,6 @@
 
                     {{--laravel身份认证--}}
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="col-md-12 cl"></div>
                 </form>
             </div>
         </div>
