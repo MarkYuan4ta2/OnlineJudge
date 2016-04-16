@@ -25,7 +25,7 @@ class CreateProblemsTable extends Migration
             $table->longText('output_description');//输出描述
             $table->integer('total_submit_number')->default(0);//总共提交数量
             $table->integer('total_accepted_number')->default(0);//总共通过数量
-            $table->string('created_by');//创建者
+            $table->integer('created_by');//创建者ID
             $table->integer('contest');//所属比赛
             $table->timestamps();//发布、更新时间
         });

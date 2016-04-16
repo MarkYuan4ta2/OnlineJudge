@@ -36,23 +36,30 @@
                         <th>修改</th>
                     </tr>
                     @foreach($problemList as $problem)
-                    <tr>
-                        <td>{{ $problem->id }}</td>
-                        <td>{{ $problem->title }}</td>
-                        <td>2016-4-14 16:27:54</td>
-                        {{--<td>{{ $problem->created_at }}</td>--}}
-                        <td>{{ $problem->created_by }}</td>
-                        <td>@if($problem->visible)可见@else不可见@endif</td>
-                        <td>{{ $problem->total_accepted_number }}/{{ $problem->total_submit_number }}</td>
-                        <td>
-                            <a href="{{ URL::action('Admin\AdminController@editProblems',array('id'=> $problem->id)) }}" class="btn-sm btn-info">编辑</a>
-                            <a href="{{ URL::action('Admin\AdminController@deleteProblems',array('id'=>$problem->id)) }}" class="btn-sm btn-danger">删除</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>{{ $problem->id }}</td>
+                            <td>{{ $problem->title }}</td>
+                            <td>2016-4-14 16:27:54</td>
+                            {{--<td>{{ $problem->created_at }}</td>--}}
+                            <td>{{ $teacherList[$problem->created_by]['name'] }}</td>
+                            <td>@if($problem->visible)可见@else不可见@endif</td>
+                            <td>{{ $problem->total_accepted_number }}/{{ $problem->total_submit_number }}</td>
+                            <td>
+                                @if((Auth::user()->is_admin != 2 and $problem->created_by == Auth::user()->id) or Auth::user()->is_admin == 2)
+                                    <a href="{{ URL::action('Admin\AdminController@editProblems',array('id'=> $problem->id)) }}"
+                                       class="btn btn-sm btn-info">编辑</a>
+                                    <a href="{{ URL::action('Admin\AdminController@deleteProblems',array('id'=>$problem->id)) }}"
+                                       class="btn btn-sm btn-danger">删除</a>
+                                @else
+                                    <a class="btn btn-sm btn-info disabled">编辑</a>
+                                    <a class="btn btn-sm btn-danger disabled">删除</a>
+                                @endif
+                            </td>
+                        </tr>
                     @endforeach
                 </table>
                 {{--<div class="form-group">--}}
-                    {{--<label>仅显示可见<input type="checkbox"/></label>--}}
+                {{--<label>仅显示可见<input type="checkbox"/></label>--}}
                 {{--</div>--}}
             </div>
         </div>

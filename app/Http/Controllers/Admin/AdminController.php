@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Problem;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,7 +20,13 @@ class AdminController extends Controller
     function listProblems(Request $request)
     {
         $problemList = Problem::all();
-        return view('themes.default.Admin.problem_list', ['problemList' => $problemList]);
+        //get teacher user list (include admin) index by id
+        $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+        $data = [
+            'problemList' => $problemList,
+            'teacherList' => $teacherList
+        ];
+        return view('themes.default.Admin.problem_list', $data);
     }
 
     function addProblems(Request $request)
@@ -67,7 +74,7 @@ class AdminController extends Controller
         $problem->output_description = $problem_form['output_description'];
         $problem->test_case_in = $problem_form['test_case_in'];
         $problem->test_case_out = $problem_form['test_case_out'];
-        $problem->created_by = $request->user()->name;
+        $problem->created_by = $request->user()->id;
 
         //get random key by md5 created_by field and title field and current time stamp
         //the result of md5 might start with number, so add difficult field as header

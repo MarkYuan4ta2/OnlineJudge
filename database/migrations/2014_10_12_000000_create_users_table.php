@@ -18,7 +18,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
-            $table->boolean('is_admin')->default(false);
+            //0 for public user
+            //1 for teacher
+            //2 for admin
+            $table->tinyInteger('is_admin')->default(0);
             $table->timestamps();
         });
     }
