@@ -7,13 +7,13 @@
     </div>
     <ul class="list-group">
         @if(isset($classificationList))
-        @foreach($classificationList as $item)
-        <li class="list-group-item problem-tag"
-            onclick="">
-            <span class="badge">{{ $item->problems_count }}</span>
-            {{ $item->name }}
-        </li>
-        @endforeach
+            @for($i = 0; $i<(count($classificationList)<10?count($classificationList):10);$i++)
+                <li class="list-group-item problem-tag"
+                    onclick="">
+                    <span class="badge">{{ $classificationList[$i]->problems_count }}</span>
+                    {{ $classificationList[$i]->name }}
+                </li>
+            @endfor
         @else
             <li class="list-group-item problem-tag">暂无分类</li>
         @endif

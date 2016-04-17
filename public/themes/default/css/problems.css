@@ -1,0 +1,23 @@
+
+.problem-section {
+    /*padding-top: 5px;*/
+    /*padding-bottom: 5px;*/
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid darkgray;
+    border-radius: 5px;
+}
+
+.problem-detail {
+    font-size: 15px;
+}
+
+.problem-detail div {
+    margin-top: 10px;
+}
+
+#loading-gif {
+    width: 40px;
+    height: 40px;
+    display: none;
+}

@@ -22,6 +22,8 @@ class ProblemsController extends Controller
     function problemDetail(Request $request)
     {
         $id = $request->id;
-//        dump($id);
+        //这里暂时不考虑直接修改链接进来的情况
+        $problem = Problem::where(['id' => $id, 'visible' => 1])->first();
+        return view('themes.default.User.problem_detail', ['problem' => $problem]);
     }
 }
