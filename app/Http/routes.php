@@ -11,19 +11,27 @@
 |
 */
 
+//public pages
 Route::get('/', function () {
     return view('welcome');
-});
-
-//用户页面命名空间
-Route::group(['namespace' => 'User'], function () {
-    Route::get('/problems', 'ProblemsController@index');
-    Route::get('/problemDetail', 'ProblemsController@problemDetail');
 });
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
     Route::any('/home', 'HomeController@index');
+
+    //login user pages
+    Route::group(['namespace' => 'User'], function () {
+        Route::group(['middleware' => 'auth'], function () {
+            //problems related
+            Route::get('/problems', 'ProblemsController@index');
+            Route::get('/problemDetail', 'ProblemsController@problemDetail');
+            Route::post('/receiveCode', 'ProblemsController@receiveCode');
+
+            //submissions related
+            Route::get('/submissions', 'ProblemsController@userSubmissions');
+        });
+    });
 
     //admin pages
     Route::group(['namespace' => 'Admin', 'middleware' => 'admin', 'prefix' => 'admin'], function () {

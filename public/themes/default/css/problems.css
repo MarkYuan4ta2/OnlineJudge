@@ -21,3 +21,32 @@
     height: 40px;
     display: none;
 }
+
+#result {
+    margin-top: 10px;
+}
+
+#result .result-box {
+    display: none;
+    padding: 8px;
+    margin-bottom: 18px;
+    border-radius: 2px;
+    font-weight: bold;
+}
+
+#result .result-box.success {
+    color: #31708f;
+    background-color: #d9edf7;
+    border: 1px solid #85c5e5;
+}
+
+#result .result-box.failed {
+    color: #a94442;
+    background-color: #f2dede;
+    border: 1px solid #d59595;
+}
+
+.w4 {
+    width: 40%;
+    float: left;
+}

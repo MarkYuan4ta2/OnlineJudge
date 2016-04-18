@@ -56,19 +56,30 @@
             <p class="problem-detail">{!! $problem->test_case_out !!}</p>
         </div>
         <br>
-        <div>
+        <div class="row" style="margin: 0px;">
+        <div class="w4">
             <label>选择语言</label>
             <div>
-                <label class="radio-inline">
-                    <input type="radio" name="language" value="1" checked> C (GCC 4.8)
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="language" value="2"> C++ (G++ 4.3)
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="language" value="3"> Java (Oracle JDK 1.7)
-                </label>
+                <select class="form-control" id="language">
+                    <option value="c">C (GCC 4.8)</option>
+                    <option value="cpp">C++ (G++ 4.3)</option>
+                    <option value="java">Java (Oracle JDK 1.7)</option>
+                    <option value="4">Python</option>
+                    <option value="5">JavaScript</option>
+                </select>
             </div>
+        </div>
+        <div class="w4" style="margin-left: 20px">
+            <label>编辑器主题</label>
+            <div>
+                <select class="form-control">
+                    <option value="1">Eclipse</option>
+                    <option value="2">Xcode</option>
+                    <option value="3">Darcula</option>
+                    <option value="4">Twilight</option>
+                </select>
+            </div>
+        </div>
         </div>
         <br>
         <div id="code-field">
@@ -82,6 +93,11 @@
             </button>
             <img src="{{asset('images/loading.gif')}}" id="loading-gif">
         </div>
+        <div id="result">
+            <div class="result-box">
+
+            </div>
+        </div>
 
     </div>
     <hr>
@@ -93,6 +109,12 @@
 @endsection
 @section('script')
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        });
+
         var CodeMirrorEditor = CodeMirror.fromTextArea(document.getElementById('editor'), {
             lineNumbers: true,
             matchBrackets: true,
@@ -101,8 +123,37 @@
 
         function submitCode() {
             var code = CodeMirrorEditor.getValue();
-            $('#loading-gif').css('display','inline');
-            //
+            var language = $('#language').val();
+            var problemId = {{$problem->id}};
+            $('#loading-gif').css('display', 'inline');
+            $.ajax({
+                type: 'post',
+                url: "{{URL::action('User\ProblemsController@receiveCode')}}",
+                data: {code: code, language:language, problemId:problemId},
+                dataType: 'json',
+                success: function (data) {
+                    //todo data should contain the run time, result
+                    $('#loading-gif').css('display', 'none');
+                    console.log(data);
+                    afterSubmit(data);
+                }
+            });
+        }
+
+        function afterSubmit(data) {
+            //todo display the result
+            var resultBox = $('.result-box');
+            var resultLink = '<a href="{{URL::action('User\ProblemsController@userSubmissions')}}?id=' + data.submissionId + '">查看详情</a>';
+            resultBox.html(data.result + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run time:&nbsp;&nbsp;' + data.time + 'ms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + resultLink);
+            resultBox.css('display', 'block');
+            switch (data.result) {
+                case 'Accepted!':
+                    resultBox.addClass('success');
+                    break;
+                case 'Failed!':
+                    resultBox.addClass('failed');
+                    break;
+            }
         }
     </script>
 @endsection
