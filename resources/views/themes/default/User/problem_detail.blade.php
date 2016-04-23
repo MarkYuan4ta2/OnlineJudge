@@ -157,6 +157,7 @@
                 data: {id: id},
                 dataType: 'json',
                 success: function (data) {
+                    $('#loading-gif').css('display', 'none');
                     if (data.result != -1) {
                         afterSubmit(data);
                     }else{
@@ -170,7 +171,6 @@
 
         function afterSubmit(data) {
             //todo display the result
-            $('#loading-gif').css('display', 'none');
             var resultBox = $('.result-box');
             var resultLink = '<a href="{{URL::action('User\ProblemsController@userSubmissions')}}?id=' + data.submissionId + '">查看详情</a>';
             resultBox.html(data.result + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run time:&nbsp;&nbsp;' + data.time + 'ms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + resultLink);
