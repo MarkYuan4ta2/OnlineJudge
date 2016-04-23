@@ -57,29 +57,29 @@
         </div>
         <br>
         <div class="row" style="margin: 0px;">
-        <div class="w4">
-            <label>选择语言</label>
-            <div>
-                <select class="form-control" id="language">
-                    <option value="c">C (GCC 4.8)</option>
-                    <option value="cpp">C++ (G++ 4.3)</option>
-                    <option value="java">Java (Oracle JDK 1.7)</option>
-                    <option value="4">Python</option>
-                    <option value="5">JavaScript</option>
-                </select>
+            <div class="w4">
+                <label>选择语言</label>
+                <div>
+                    <select class="form-control" id="language">
+                        <option value="c">C (GCC 4.8)</option>
+                        <option value="cpp">C++ (G++ 4.3)</option>
+                        <option value="java">Java (Oracle JDK 1.7)</option>
+                        <option value="4">Python</option>
+                        <option value="5">JavaScript</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="w4" style="margin-left: 20px">
-            <label>编辑器主题</label>
-            <div>
-                <select class="form-control">
-                    <option value="1">Eclipse</option>
-                    <option value="2">Xcode</option>
-                    <option value="3">Darcula</option>
-                    <option value="4">Twilight</option>
-                </select>
+            <div class="w4" style="margin-left: 20px">
+                <label>编辑器主题</label>
+                <div>
+                    <select class="form-control">
+                        <option value="1">Eclipse</option>
+                        <option value="2">Xcode</option>
+                        <option value="3">Darcula</option>
+                        <option value="4">Twilight</option>
+                    </select>
+                </div>
             </div>
-        </div>
         </div>
         <br>
         <div id="code-field">
@@ -109,6 +109,9 @@
 @endsection
 @section('script')
     <script>
+        var submitted = false;
+        var submissionId;
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -122,6 +125,11 @@
         });
 
         function submitCode() {
+            if (!submitted) {
+                submitted = true;
+            } else {
+                return;
+            }
             var code = CodeMirrorEditor.getValue();
             var language = $('#language').val();
             var problemId = {{$problem->id}};
@@ -129,19 +137,40 @@
             $.ajax({
                 type: 'post',
                 url: "{{URL::action('User\ProblemsController@receiveCode')}}",
-                data: {code: code, language:language, problemId:problemId},
+                data: {code: code, language: language, problemId: problemId},
                 dataType: 'json',
                 success: function (data) {
                     //todo data should contain the run time, result
-                    $('#loading-gif').css('display', 'none');
                     console.log(data);
-                    afterSubmit(data);
+                    submissionId = data.submissionId;
+                    //5秒后去查看
+                    setTimeout(askForResult, 5000);
+                }
+            });
+        }
+
+        function askForResult() {
+            var id = submissionId;
+            $.ajax({
+                type: 'post',
+                url: "{{URL::action('User\ProblemsController@submissionResult')}}",
+                data: {id: id},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.result != -1) {
+                        afterSubmit(data);
+                    }else{
+                        alert("抱歉，服务器正在紧张判题中，请稍后到我的提交列表中查看");
+                    }
+                    //允许重新提交
+                    submitted = false;
                 }
             });
         }
 
         function afterSubmit(data) {
             //todo display the result
+            $('#loading-gif').css('display', 'none');
             var resultBox = $('.result-box');
             var resultLink = '<a href="{{URL::action('User\ProblemsController@userSubmissions')}}?id=' + data.submissionId + '">查看详情</a>';
             resultBox.html(data.result + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run time:&nbsp;&nbsp;' + data.time + 'ms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + resultLink);
@@ -155,5 +184,6 @@
                     break;
             }
         }
+
     </script>
 @endsection

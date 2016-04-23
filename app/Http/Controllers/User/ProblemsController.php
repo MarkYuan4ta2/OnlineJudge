@@ -40,20 +40,30 @@ class ProblemsController extends Controller
         $submission->problem_id = $problemId;
         $submission->language = $language;
         $submission->code = $code;
+        $submission->run_time = -1;
         $submission->save();
 
-        //todo check and run the code, and get the result from database
-        
-
-        $result = $submission->result;
-        $time = $submission->run_time;
         $submissionId = $submission->id;
         $return = array(
-            'result' => $result,
-            'time' => $time,
             'submissionId' => $submissionId,
         );
         return json_encode($return);
+    }
+
+    function submissionResult(Request $request)
+    {
+        $sub = Submission::where('id', $request->id)->first();
+        if ($sub->run_time == -1) {
+            //judge not yet
+            return json_encode(array('result' => -1));
+        } else {
+            $return = array(
+                'result' => $sub->result,
+                'time' => $sub->run_time,
+                'submissionId' => $sub->id,
+            );
+            return json_encode($return);
+        }
     }
 
     function userSubmissions(Request $request)
