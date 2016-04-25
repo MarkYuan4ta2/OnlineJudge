@@ -57,7 +57,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/problems') }}">{{ trans('messages.problems') }}</a></li>
-                    <li><a href="{{ url('/submission') }}">{{ trans('messages.submission') }}</a></li>
+                    <li><a href="{{ url('/submissions') }}">{{ trans('messages.submission') }}</a></li>
                     <li><a href="{{ url('/contests') }}">{{ trans('messages.contests') }}</a></li>
                     <li><a href="{{ url('/groups') }}">{{ trans('messages.groups') }}</a></li>
                     <li><a href="{{ url('/help') }}">{{ trans('messages.help') }}</a></li>

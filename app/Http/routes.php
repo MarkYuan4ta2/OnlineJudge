@@ -31,6 +31,7 @@ Route::group(['middleware' => 'web'], function () {
 
             //submissions related
             Route::get('/submissions', 'ProblemsController@userSubmissions');
+            Route::get('/submissionDetail', 'ProblemsController@submissionDetail');
         });
     });
 

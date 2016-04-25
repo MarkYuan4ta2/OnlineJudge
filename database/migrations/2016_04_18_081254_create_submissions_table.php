@@ -20,7 +20,7 @@ class CreateSubmissionsTable extends Migration
             $table->integer('run_time')->default(-1);
             $table->timestamp('created_at');
             $table->longText('code');
-            $table->string('compile_result');
+            $table->longText('compile_result');
             $table->string('run_result');
             $table->enum('result', ['Accepted', 'Runtime Error', 'Time Limit Exceeded', 'Memory Limit Exceeded', 'Compile Error', 'Wrong Answer', 'System Error', 'Waiting']);
         });

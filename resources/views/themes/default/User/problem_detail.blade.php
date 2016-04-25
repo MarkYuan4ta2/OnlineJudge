@@ -16,7 +16,7 @@
                 <a href="">题目</a>
             </li>
             <li role="presentation">
-                <a href="">我的提交</a>
+                <a href="{{URL::action('User\ProblemsController@userSubmissions', array('problemId'=>$problem->id))}}">我的提交</a>
             </li>
         </ul>
 
@@ -63,9 +63,9 @@
                     <select class="form-control" id="language">
                         <option value="c">C (GCC 4.8)</option>
                         <option value="cpp">C++ (G++ 4.3)</option>
-                        <option value="java">Java (Oracle JDK 1.7)</option>
-                        <option value="4">Python</option>
-                        <option value="5">JavaScript</option>
+                        {{--<option value="java">Java (Oracle JDK 1.7)</option>--}}
+                        {{--<option value="4">Python</option>--}}
+                        {{--<option value="5">JavaScript</option>--}}
                     </select>
                 </div>
             </div>
@@ -172,7 +172,7 @@
         function afterSubmit(data) {
             //todo display the result
             var resultBox = $('.result-box');
-            var resultLink = '<a href="{{URL::action('User\ProblemsController@userSubmissions')}}?id=' + data.submissionId + '">查看详情</a>';
+            var resultLink = '<a href="{{URL::action('User\ProblemsController@submissionDetail')}}?id=' + data.submissionId + '">查看详情</a>';
             resultBox.html(data.result + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run time:&nbsp;&nbsp;' + data.time + 'ms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + resultLink);
             resultBox.css('display', 'block');
             switch (data.result) {

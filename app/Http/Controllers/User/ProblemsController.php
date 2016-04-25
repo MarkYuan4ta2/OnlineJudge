@@ -68,6 +68,31 @@ class ProblemsController extends Controller
 
     function userSubmissions(Request $request)
     {
-        dd($request->id);
+        if (isset($request->problemId)) {
+            $filter = ['problem_id' => intval($request->problemId), 'student_id' => $request->user()->id];
+        } else {
+            $filter = ['student_id' => $request->user()->id];
+        }
+        $submissions = Submission::where($filter)->get();
+        $problemList = Problem::where('visible', 1)->get()->keyBy('id');
+        $data = [
+            'submissions' => $submissions,
+            'problems' => $problemList
+        ];
+
+        return view('themes.default.User.submissions', $data);
+    }
+
+    function submissionDetail(Request $request)
+    {
+        $submission = Submission::where(['id' => intval($request->id)])->first();
+        $problem = Problem::where(['id' => $submission->problem_id])->first();
+
+        $data = [
+            'submission' => $submission,
+            'problem' => $problem
+        ];
+
+        return view('themes.default.User.submission_detail', $data);
     }
 }
