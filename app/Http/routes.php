@@ -18,11 +18,13 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
-    Route::any('/home', 'HomeController@index');
 
     //login user pages
     Route::group(['namespace' => 'User'], function () {
         Route::group(['middleware' => 'auth'], function () {
+            //personal home page
+            Route::any('/home', 'UserController@home');
+
             //problems related
             Route::get('/problems', 'ProblemsController@index');
             Route::get('/problemDetail', 'ProblemsController@problemDetail');
