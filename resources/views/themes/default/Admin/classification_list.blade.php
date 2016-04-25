@@ -99,7 +99,7 @@
 
         function acceptChange(id) {
             var name = $('#newName').val();
-            var id = $('#id_td' + id).text();
+//            var id = $('#id_td' + id).text();
             $.post(
                     "{{URL::action('Admin\AdminController@saveClassifications')}}",
                     {name: name, id: id},

@@ -114,10 +114,10 @@ class AdminController extends Controller
 
     function saveClassifications(Request $request)
     {
-        if(isset($request->id)){//receive request from ajax post
-            $classification = Classification::where('id',$request->id)->first();
+        if (isset($request->id)) {//receive request from ajax post
+            $classification = Classification::where('id', $request->id)->first();
             $return = 'succeed!';
-        }else{//receive request from form post
+        } else {//receive request from form post
             $classification = new Classification;
             $return = redirect()->action('Admin\AdminController@listClassifications');
         }
@@ -134,5 +134,34 @@ class AdminController extends Controller
         Classification::destroy($request->id);
 
         return redirect()->action('Admin\AdminController@listClassifications');
+    }
+
+    function listUsers(Request $request)
+    {
+        $userType = [
+            0 => '普通用户',
+            1 => '管理员',
+            2 => '超级管理员'
+        ];
+        $userList = User::all();
+
+        $data = [
+            'userType' => $userType,
+            'userList' => $userList
+        ];
+
+        return view('themes.default.Admin.user_list', $data);
+    }
+
+    function saveUserInfo(Request $request)
+    {
+        isset($request->id) and $id = intval($request->id);
+        isset($request->is_admin) and $is_admin = intval($request->is_admin);
+
+        $user = User::where('id', $id)->first();
+        $user->is_admin = $is_admin;
+
+        $user->save();
+        return '修改成功！';
     }
 }

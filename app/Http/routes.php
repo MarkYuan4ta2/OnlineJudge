@@ -48,5 +48,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/list_classification','AdminController@listClassifications');
         Route::get('/delete_classification', 'AdminController@deleteClassifications');
         Route::post('/save_classification','AdminController@saveClassifications');
+
+        Route::get('/user_list','AdminController@listUsers');
+        Route::post('/save_user_info', 'AdminController@saveUserInfo');
     });
 });

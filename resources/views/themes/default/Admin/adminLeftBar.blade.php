@@ -38,7 +38,7 @@
                     公告管理
                 </p>
             </a>
-            <a href="{{ URL::action('Admin\AdminController@index',array('action'=>'user_list')) }}"
+            <a href="{{ URL::action('Admin\AdminController@listUsers',array('action'=>'user_list')) }}"
                class="list-group-item @if(isset($_GET['action']) and $_GET['action']=='user_list') choose @endif">
                 <p class="list-group-item-text">
                     用户管理
