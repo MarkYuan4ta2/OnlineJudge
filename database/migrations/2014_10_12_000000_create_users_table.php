@@ -19,9 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('student_id')->nullable();
             $table->string('password');
             $table->rememberToken();
-            //0 for public user
-            //1 for teacher
-            //2 for admin
+            $table->string('avatar')->nullable();
             $table->tinyInteger('is_admin')->default(0);
             $table->string('phone_numbers')->nullable();
             $table->longText('self_description')->nullable();

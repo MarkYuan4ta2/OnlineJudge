@@ -32,3 +32,9 @@ span.warning {
 .info {
     color: #5bc0de;
 }
+
+.avatar {
+    border: 2px solid darkgray;
+    width:200px;
+    height:200px;
+}

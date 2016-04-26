@@ -13,4 +13,5 @@ return [
     'help' => '帮助',
     'login' => '登陆',
     'register' => '注册',
+    'logout' => '退出',
 ];

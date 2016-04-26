@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Classification;
 use App\Problem;
+use App\Submission;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,11 @@ class AdminController extends Controller
 {
     function index(Request $request)
     {
-        return view('themes.default.Admin.home');
+        $submissions = Submission::all();
+        $data = [
+            'submissions' => $submissions,
+        ];
+        return view('themes.default.Admin.home', $data);
     }
 
     function listProblems(Request $request)
@@ -85,7 +90,6 @@ class AdminController extends Controller
         $problem->random_key = $random_key;
 
         //todo:add contest
-        //todo:add upload files
         if ($request->hasFile('final_case_in')) {
 //            dd('get final_case_in');
             $case_in = $request->file('final_case_in');

@@ -23,7 +23,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['namespace' => 'User'], function () {
         Route::group(['middleware' => 'auth'], function () {
             //personal home page
-            Route::any('/home', 'UserController@home');
+            Route::any('/home', 'UserController@homePage');
+            Route::post('/upload_avatar', 'UserController@saveAvatar');
 
             //problems related
             Route::get('/problems', 'ProblemsController@index');
