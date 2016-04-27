@@ -8,9 +8,13 @@
     <div class="container">
         <div class="row">
             @include('themes.default.Admin.adminLeftBar')
-            <div class="col-md-9 col-lg-9">
-                <h1>admin home</h1>
-                <div id="chart" style="width: 600px;height:500px;"></div>
+            <div class="col-md-5 col-lg-5">
+                <h1>提交概况</h1>
+                <div id="submissionChart" style="height: 500px;"></div>
+            </div>
+            <div class="col-md-5 col-lg-5">
+                <h1>用户概况</h1>
+                <div id="userChart" style="height: 500px;"></div>
             </div>
         </div>
     </div>
@@ -19,7 +23,8 @@
 @section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.1.7/echarts.min.js"></script>
     <script type="text/javascript">
-        var myChart = echarts.init(document.getElementById('chart'));
+        var submissionChart = echarts.init(document.getElementById('submissionChart'));
+        var userChart = echarts.init(document.getElementById('userChart'));
         option = {
             tooltip: {
                 trigger: 'item',
@@ -28,11 +33,11 @@
             legend: {
                 orient: 'vertical',
                 x: 'left',
-                data: ['全部提交数量', '全部通过数量']
+                data: ['答案通过', '答案错误', '编译错误', '运行超时']
             },
             series: [
                 {
-                    name: '题目情况',
+                    name: '提交情况',
                     type: 'pie',
                     radius: ['50%', '70%'],
                     avoidLabelOverlap: false,
@@ -55,13 +60,60 @@
                         }
                     },
                     data: [
-                        {value: {{ $submissions }}, name: '全部提交数量'},
-                        {value: {{ $submissions }}, name: '全部通过数量'},
+                        {value: {{ $accepted }}, name: '答案通过'},
+                        {value: {{ $timeExceeded }}, name: '答案错误'},
+                        {value: {{ $compileError }}, name: '编译错误'},
+                        {value: {{ $wrongAnswer }}, name: '运行超时'}
                     ]
                 }
             ]
         };
 
-        myChart.setOption(option);
+        submissionChart.setOption(option);
+
+        option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: ['普通用户', '管理员用户', '超级管理员']
+            },
+            series: [
+                {
+                    name: '提交情况',
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                        {value: {{ $customUser }}, name: '普通用户'},
+                        {value: {{ $admin }}, name: '管理员用户'},
+                        {value: {{ $superAdmin }}, name: '超级管理员'}
+                    ]
+                }
+            ]
+        };
+
+        userChart.setOption(option);
     </script>
 @endsection

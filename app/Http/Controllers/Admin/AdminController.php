@@ -16,9 +16,24 @@ class AdminController extends Controller
 {
     function index(Request $request)
     {
-        $submissions = Submission::all();
+        //'Accepted','Time Limit Exceeded','Compile Error','Wrong Answer'
+        $accepted = Submission::where('result', 'Accepted')->count();
+        $timeExceeded = Submission::where('result', 'Time Limit Exceeded')->count();
+        $compileError = Submission::where('result', 'Compile Error')->count();
+        $wrongAnswer = Submission::where('result', 'Wrong Answer')->count();
+
+        $customUser = User::where('is_admin', 0)->count();
+        $admin = User::where('is_admin', 1)->count();
+        $superAdmin = User::where('is_admin', 2)->count();
+
         $data = [
-            'submissions' => $submissions,
+            'accepted' => $accepted,
+            'timeExceeded' => $timeExceeded,
+            'compileError' => $compileError,
+            'wrongAnswer' => $wrongAnswer,
+            'customUser' => $customUser,
+            'admin' => $admin,
+            'superAdmin' => $superAdmin,
         ];
         return view('themes.default.Admin.home', $data);
     }
