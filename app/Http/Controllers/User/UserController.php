@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Group;
+use App\group_user;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 
@@ -30,5 +32,34 @@ class UserController extends Controller
             return $avatarPath;
         }
         return 'No files received';
+    }
+
+    function groups(Request $request)
+    {
+        $groupList = Group::all();
+        $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+        $data = [
+            'groupList' => $groupList,
+            'teacherList' => $teacherList,
+        ];
+
+        return view('themes.default.User.groups', $data);
+    }
+
+    function groupDetail(Request $request)
+    {
+        $groupInfo = Group::where('id', $request->id)->first();
+        $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+
+        $joined = group_user::where(['user_id'=> $request->user()->id, 'group_id'=>$request->id])->count();
+        $joined = ($joined!=0);
+
+        $data = [
+            'joined'=>$joined,
+            'groupInfo' => $groupInfo,
+            'teacherList' => $teacherList,
+        ];
+
+        return view('themes.default.User.group_detail', $data);
     }
 }

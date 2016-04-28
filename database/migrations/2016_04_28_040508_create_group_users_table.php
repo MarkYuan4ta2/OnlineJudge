@@ -16,6 +16,8 @@ class CreateGroupUsersTable extends Migration
             $table->increments('id');
             $table->integer('group_id');
             $table->integer('user_id');
+            $table->boolean('accepted')->default(false);
+            $table->string('addition_info')->nullable();
         });
     }
 

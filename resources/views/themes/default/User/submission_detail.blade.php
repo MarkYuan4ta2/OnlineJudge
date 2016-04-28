@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    {{$problem->title}}
+    {{$problem->title}}的提交
 @endsection
 
 @section('style')

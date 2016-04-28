@@ -35,6 +35,10 @@ Route::group(['middleware' => 'web'], function () {
             //submissions related
             Route::get('/submissions', 'ProblemsController@userSubmissions');
             Route::get('/submissionDetail', 'ProblemsController@submissionDetail');
+
+            //group related
+            Route::get('/groups', 'UserController@groups');
+            Route::get('/groupDetail', 'UserController@groupDetail');
         });
     });
 
@@ -42,17 +46,26 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['namespace' => 'Admin', 'middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::get('/', 'AdminController@index');
 
+
+        // problems
         Route::get('/list_problems', 'AdminController@listProblems');
         Route::get('/add_problems', 'AdminController@addProblems');
         Route::get('/edit_problems', 'AdminController@editProblems');
         Route::get('/delete_problems', 'AdminController@deleteProblems');
         Route::post('/save_problem', 'AdminController@saveProblems');//接收从add和edit传过来的表单
 
+        // classifications
         Route::get('/list_classification','AdminController@listClassifications');
         Route::get('/delete_classification', 'AdminController@deleteClassifications');
         Route::post('/save_classification','AdminController@saveClassifications');
 
+        // users
         Route::get('/user_list','AdminController@listUsers');
         Route::post('/save_user_info', 'AdminController@saveUserInfo');
+
+        //groups
+        Route::get('/group_list','AdminController@listGroups');
+        Route::post('/save_group', 'AdminController@saveGroup');
+        Route::get('/group_detail','AdminController@groupDetail');
     });
 });

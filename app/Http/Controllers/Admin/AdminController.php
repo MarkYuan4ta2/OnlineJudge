@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Classification;
+use App\Group;
+use App\group_user;
 use App\Problem;
 use App\Submission;
 use Illuminate\Foundation\Auth\User;
@@ -182,5 +184,66 @@ class AdminController extends Controller
 
         $user->save();
         return '修改成功！';
+    }
+
+    function listGroups(Request $request)
+    {
+        //super admin can get all group info, custom admin can only get his/her own group info
+        if ($request->user()->is_admin == 2) {
+            $groupList = Group::all();
+        } else if ($request->user()->is_admin == 1) {
+            $groupList = Group::where('leader_id', $request->user()->id)->get();
+        }
+        $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+
+        $data = [
+            'groupList' => $groupList,
+            'teacherList' => $teacherList,
+        ];
+        return view('themes.default.Admin.group_list', $data);
+    }
+
+    function saveGroup(Request $request)
+    {
+        isset($request->name) and $name = strval($request->name);
+        isset($request->description) and $description = strval($request->description);
+        isset($request->leader_id) and $leader_id = intval($request->leader_id);
+
+        if (isset($request->id)) {//modify an old group info
+            $group = Group::where('id', $request->id)->first();
+        } else {//add a new group info
+            if (Group::where('name', $name)->count() != 0) {
+                return 'name already exist!';
+            }
+            $group = new Group;
+        }
+        
+        $group->name = $name;
+        $group->description = $description;
+        $group->leader_id = isset($leader_id)?$leader_id:$request->user()->id;
+
+        $group->save();
+
+        return 'success';
+    }
+
+    function groupDetail(Request $request)
+    {
+        $groupInfo = Group::where(['id' => $request->id, 'leader_id' => $request->user()->id])->first();
+        //prevent some admins who want to access someone else's group detail
+        if ($groupInfo == null) {
+            return redirect()->action('Admin\AdminController@listGroups');
+        } else {
+            $memberList = group_user::where(['group_id' => $request->id, 'accepted' => true])->get();
+            $userList = User::where('is_admin', 0)->get()->keyBy('id');
+            $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+            $data = [
+                'groupInfo' => $groupInfo,
+                'memberList' => $memberList,
+                'userList' => $userList,
+                'teacherList' => $teacherList,
+            ];
+            return view('themes.default.Admin.group_detail', $data);
+        }
     }
 }

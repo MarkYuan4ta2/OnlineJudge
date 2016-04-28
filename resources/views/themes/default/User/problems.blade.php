@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    问题列表
+@endsection
+
 @section('style')
     <link href="{{ asset('themes/default/css/collection.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('themes/default/css/problems.css') }}" rel="stylesheet" type="text/css">
@@ -43,8 +47,10 @@
                                     @if($problemList[$i]->total_submit_number == 0 || $problem->total_accepted_number == 0)
                                         0%
                                     @else
-                                        {{ floor($problemList[$i]->total_accepted_number/$problem->total_submit_number) }}%
-                                        ({{$problemList[$i]->total_accepted_number}}/{{$problemList[$i]->total_submit_number}})
+                                        {{ floor($problemList[$i]->total_accepted_number/$problem->total_submit_number) }}
+                                        %
+                                        ({{$problemList[$i]->total_accepted_number}}
+                                        /{{$problemList[$i]->total_submit_number}})
                                     @endif
                                 </td>
                             </tr>

@@ -72,7 +72,7 @@
                     小组管理
                 </h4>
             </a>
-            <a href="{{ URL::action('Admin\AdminController@index',array('action'=>'group_list')) }}"
+            <a href="{{ URL::action('Admin\AdminController@listGroups',array('action'=>'group_list')) }}"
                class="list-group-item @if(isset($_GET['action']) and $_GET['action']=='group_list') choose @endif">
                 <p class="list-group-item-text">
                     小组列表

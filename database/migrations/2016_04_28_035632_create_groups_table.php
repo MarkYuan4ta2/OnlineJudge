@@ -17,7 +17,7 @@ class CreateGroupsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->integer('leader_id');
-            $table->integer('members_number');
+            $table->integer('members_count');
             $table->integer('total_submissions');
             $table->integer('total_accepted_submissions');
             $table->timestamps();
