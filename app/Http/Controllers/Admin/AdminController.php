@@ -246,4 +246,26 @@ class AdminController extends Controller
             return view('themes.default.Admin.group_detail', $data);
         }
     }
+
+    function groupApplicationList(Request $request)
+    {
+        $groupList = Group::all()->keyBy('id');
+        if($request->user()->is_admin == 2){
+            $applicationList = group_user::all();
+        }else{
+            $applicationList = group_user::where('leader_id', $request->user()->id)->get();
+        }
+
+        $data = [
+            $groupList,
+            $applicationList
+        ];
+
+        return view('themes.default.Admin.group_applications_list', $data);
+    }
+
+    function replyApplication(Request $request)
+    {
+
+    }
 }

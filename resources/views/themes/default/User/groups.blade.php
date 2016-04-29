@@ -37,10 +37,11 @@
                         @foreach($groupList as $group)
                             <tr>
                                 <th scope="row">
-                                    <a href="{{URL::action('User\UserController@groupDetail',array('id'=>$group->id))}}"
-                                       target="_blank">{{ $group->id }}</a></th>
-                                <td><a href="{{URL::action('User\UserController@groupDetail',array('id'=>$group->id))}}"
-                                       target="_blank">{{ $group->name }}</a></td>
+                                    <a href="{{URL::action('User\UserController@groupDetail',array('id'=>$group->id))}}">{{ $group->id }}</a>
+                                </th>
+                                <td>
+                                    <a href="{{URL::action('User\UserController@groupDetail',array('id'=>$group->id))}}">{{ $group->name }}</a>
+                                </td>
                                 <td>{{ $teacherList[$group->leader_id]->name }}</td>
                                 <td>{{ $group->members_count }}</td>
                                 <td>{{ $group->created_at }}</td>

@@ -32,6 +32,7 @@
             <div>
                 <div class="form-group">
                     <input id="groupId" value="{{ $groupInfo->id }}" type="hidden">
+                    <input id="userId" value="{{ Auth::user()->id }}" type="hidden">
                     <label>申请信息</label>
                     <textarea maxlength="30" placeholder="不超过30字" class="form-control" id="applyMessage"
                               rows="2"></textarea>
@@ -45,11 +46,31 @@
     </div>
 @endsection
 
-@section('script_before')
-@endsection
-
 @section('script')
     <script>
-        //post加入小组申请
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        });
+
+        $('#sendApplication').click(function () {
+//        function submitApplication() {
+            var msg = $('#applyMessage').val();
+            var userId = $('#userId').val();
+            var groupId = $('#groupId').val();
+            $.ajax({
+                type: 'post',
+                url: "{{URL::action('User\UserController@groupApplication')}}",
+                data: {user_id: userId, group_id: groupId, addition_info: msg},
+                dataType: 'text',
+                success: function (data) {
+                    if (data == 'success'){
+                        alert(data);
+                        location.href = '{{URL::action('User\UserController@groups')}}';
+                    }
+                }
+            });
+        })
     </script>
 @endsection

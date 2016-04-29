@@ -93,7 +93,6 @@
                     {name: name, description: description, leader_id: leader_id, id:id},
                     function (data, status) {
 //                        alert(data);
-                        console.log(data);
                         if (data == 'success') {
                             location.reload();
                         }

@@ -62,4 +62,20 @@ class UserController extends Controller
 
         return view('themes.default.User.group_detail', $data);
     }
+
+    function groupApplication(Request $request)
+    {
+        isset($request->user_id) and $user_id = intval($request->user_id);
+        isset($request->group_id) and $group_id = intval($request->group_id);
+        isset($request->addition_info) and $addition_info = strval($request->addition_info);
+
+        $application = new group_user;
+        $application->user_id = $user_id;
+        $application->group_id = $group_id;
+        $application->addition_info = $addition_info;
+
+        $application->save();
+
+        return 'success';
+    }
 }
