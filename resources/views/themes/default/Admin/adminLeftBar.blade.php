@@ -78,7 +78,7 @@
                     小组列表
                 </p>
             </a>
-            <a href="{{ URL::action('Admin\AdminController@index',array('action'=>'group_request')) }}"
+            <a href="{{ URL::action('Admin\AdminController@groupApplicationList',array('action'=>'group_request')) }}"
                class="list-group-item @if(isset($_GET['action']) and $_GET['action']=='group_request') choose @endif">
                 <p class="list-group-item-text">
                     小组申请

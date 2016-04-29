@@ -30,7 +30,7 @@
                                 <td>{{ $userList[$member['user_id']]->email }}</td>
                                 <td>{{ $userList[$member['user_id']]->created_at }}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-danger">移除</a>
+                                    <a class="btn btn-sm btn-danger" onclick="removeMember({{$member->id}});">移除</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -93,6 +93,19 @@
                     {name: name, description: description, leader_id: leader_id, id:id},
                     function (data, status) {
 //                        alert(data);
+                        if (data == 'success') {
+                            location.reload();
+                        }
+                    }
+            );
+        }
+
+        function removeMember(id) {
+            $.post(
+                    "{{URL::action('Admin\AdminController@removeMember')}}",
+                    {id:id},
+                    function (data, status) {
+                        alert(data);
                         if (data == 'success') {
                             location.reload();
                         }

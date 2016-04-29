@@ -217,10 +217,10 @@ class AdminController extends Controller
             }
             $group = new Group;
         }
-        
+
         $group->name = $name;
         $group->description = $description;
-        $group->leader_id = isset($leader_id)?$leader_id:$request->user()->id;
+        $group->leader_id = isset($leader_id) ? $leader_id : $request->user()->id;
 
         $group->save();
 
@@ -235,7 +235,7 @@ class AdminController extends Controller
             return redirect()->action('Admin\AdminController@listGroups');
         } else {
             $memberList = group_user::where(['group_id' => $request->id, 'accepted' => true])->get();
-            $userList = User::where('is_admin', 0)->get()->keyBy('id');
+            $userList = User::all()->keyBy('id');
             $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
             $data = [
                 'groupInfo' => $groupInfo,
@@ -249,16 +249,18 @@ class AdminController extends Controller
 
     function groupApplicationList(Request $request)
     {
-        $groupList = Group::all()->keyBy('id');
-        if($request->user()->is_admin == 2){
-            $applicationList = group_user::all();
-        }else{
-            $applicationList = group_user::where('leader_id', $request->user()->id)->get();
+        if ($request->user()->is_admin == 2) {
+            $applicationList = group_user::where('accepted', false)->get();
+        } else {
+            $applicationList = group_user::where(['accepted' => false, 'leader_id' => $request->user()->id])->get();
         }
+        $groupList = Group::all()->keyBy('id');
+        $userList = User::all()->keyBy('id');
 
         $data = [
-            $groupList,
-            $applicationList
+            'groupList' => $groupList,
+            'applicationList' => $applicationList,
+            'userList' => $userList,
         ];
 
         return view('themes.default.Admin.group_applications_list', $data);
@@ -266,6 +268,41 @@ class AdminController extends Controller
 
     function replyApplication(Request $request)
     {
+        $id = intval($request->id);
+        $reply = intval($request->reply);
 
+        if ($reply) {//accept user to join in the group
+            $application = group_user::where('id', $id)->first();
+            $application->accepted = $reply;
+            $application->save();
+
+            //members_count + 1
+            $group = Group::where('id', $application->group_id)->first();
+            $group->members_count += 1;
+            $group->save();
+        } else {
+            //delete this record
+            group_user::destroy($id);
+        }
+
+        return 'success';
+    }
+
+    function removeMember(Request $request)
+    {
+        $id = intval($request->id);
+
+        $application = group_user::where('id', $id)->first();
+        //members_count - 1
+        $group = Group::where('id', $application->group_id)->first();
+        if($group->members_count > 0)
+        {
+            $group->members_count -= 1;
+        }
+        $group->save();
+
+        group_user::destroy($id);
+
+        return 'success';
     }
 }

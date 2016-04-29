@@ -70,5 +70,6 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/group_detail', 'AdminController@groupDetail');
         Route::get('/group_applications', 'AdminController@groupApplicationList');
         Route::post('/reply_group_application', 'AdminController@replyApplication');
+        Route::post('/remove_member', 'AdminController@removeMember');
     });
 });
