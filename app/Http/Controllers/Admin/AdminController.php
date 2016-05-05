@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Announcement;
 use App\Classification;
 use App\Group;
 use App\group_user;
@@ -295,13 +296,48 @@ class AdminController extends Controller
         $application = group_user::where('id', $id)->first();
         //members_count - 1
         $group = Group::where('id', $application->group_id)->first();
-        if($group->members_count > 0)
-        {
+        if ($group->members_count > 0) {
             $group->members_count -= 1;
         }
         $group->save();
 
         group_user::destroy($id);
+
+        return 'success';
+    }
+
+    function listAnnouncements(Request $request)
+    {
+        if ($request->user()->is_admin == 2) {
+            $announcementList = Announcement::all();
+        } else {
+            $announcementList = Announcement::where('created_by')->get();
+        }
+        $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+
+        $data = [
+            'announcementList' => $announcementList,
+            'teacherList' => $teacherList,
+        ];
+
+        return view('themes.default.Admin.announcements_list', $data);
+    }
+
+    function saveAnnouncements(Request $request)
+    {
+        isset($request->title) and $title = strval($request->title);
+        isset($request->contents) and $content = strval($request->contents);
+
+        if (isset($request->id) and $request->id != "") {
+            $announcement = Announcement::where('id', intval($request->id))->first();
+        } else {
+            $announcement = new Announcement;
+        }
+
+        $announcement->title = $title;
+        $announcement->content = $content;
+        $announcement->created_by = $request->user()->id;
+        $announcement->save();
 
         return 'success';
     }

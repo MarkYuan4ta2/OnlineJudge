@@ -32,7 +32,7 @@
                     通用管理
                 </h4>
             </a>
-            <a href="{{ URL::action('Admin\AdminController@index',array('action'=>'announcements')) }}"
+            <a href="{{ URL::action('Admin\AdminController@listAnnouncements',array('action'=>'announcements')) }}"
                class="list-group-item @if(isset($_GET['action']) and $_GET['action']=='announcements') choose @endif">
                 <p class="list-group-item-text">
                     公告管理

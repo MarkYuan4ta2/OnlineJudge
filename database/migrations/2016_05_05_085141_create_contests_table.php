@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAnnouncementsTable extends Migration
+class CreateContestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,13 @@ class CreateAnnouncementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('announcements', function (Blueprint $table) {
+        Schema::create('contests', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->longText('content');
-            $table->boolean('visible')->default(true);
+            $table->string('name');
+            $table->timestamp('start_time');
+            $table->timestamp('end_time');
+            $table->enum('state', ['start', 'end', 'not start', 'other']);//'not start' and 'other' state won't let user get in
+            $table->longText('description');
             $table->integer('created_by');
             $table->timestamps();
         });
@@ -29,6 +31,6 @@ class CreateAnnouncementsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('announcements');
+        Schema::drop('contests');
     }
 }
