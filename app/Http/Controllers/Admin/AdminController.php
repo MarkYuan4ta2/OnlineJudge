@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Announcement;
 use App\Classification;
+use App\Contest;
 use App\Group;
 use App\group_user;
 use App\Problem;
@@ -340,5 +341,42 @@ class AdminController extends Controller
         $announcement->save();
 
         return 'success';
+    }
+
+    function listContests(Request $request)
+    {
+        if ($request->user()->is_admin == 2) {
+            $contestList = Contest::all();
+        } else {
+            $contestList = Contest::where('created_by')->get();
+        }
+        $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+
+        $data = [
+            'contestList' => $contestList,
+            'teacherList' => $teacherList,
+        ];
+
+        return view('themes.default.Admin.contests_list', $data);
+    }
+
+    function addContest(Request $request)
+    {
+        return view('themes.default.Admin.contest_edit');
+    }
+
+    function saveContest(Request $request)
+    {
+        $contest = new Contest;
+        $contest->name = $request->name;
+        $contest->description = $request->description;
+        $contest->start_time = strtotime($request->start_time);
+        $contest->end_time = strtotime($request->end_time);
+        $contest->state = 'not start';
+        $contest->created_by = $request->user()->id;
+
+        $contest->save();
+
+        return redirect()->action('Admin\AdminController@listContests');
     }
 }

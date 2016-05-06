@@ -75,5 +75,10 @@ Route::group(['middleware' => 'web'], function () {
         // announcements
         Route::get('/list_announcements', 'AdminController@listAnnouncements');
         Route::post('/save_announcement', 'AdminController@saveAnnouncements');
+
+        // contests
+        Route::get('/list_contests', 'AdminController@listContests');
+        Route::get('/add_contest', 'AdminController@addContest');
+        Route::post('/save_contest','AdminController@saveContest');
     });
 });

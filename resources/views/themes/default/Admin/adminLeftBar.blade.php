@@ -52,13 +52,13 @@
                     比赛管理
                 </h4>
             </a>
-            <a href="{{ URL::action('Admin\AdminController@index',array('action'=>'contest_list')) }}"
+            <a href="{{ URL::action('Admin\AdminController@listContests',array('action'=>'contest_list')) }}"
                class="list-group-item @if(isset($_GET['action']) and $_GET['action']=='contest_list') choose @endif">
                 <p class="list-group-item-text">
                     比赛列表
                 </p>
             </a>
-            <a href="{{ URL::action('Admin\AdminController@index',array('action'=>'add_contest')) }}"
+            <a href="{{ URL::action('Admin\AdminController@addContest',array('action'=>'add_contest')) }}"
                class="list-group-item @if(isset($_GET['action']) and $_GET['action']=='add_contest') choose @endif">
                 <p class="list-group-item-text">
                     新增比赛
