@@ -42,14 +42,16 @@
                             <td>{{ $contest->created_at }}</td>
                             <td>{{ $teacherList[$contest->created_by]->name }}</td>
                             <td>
-                                <a class="btn btn-info btn-sm">编辑</a>
-                                <a class="btn btn-info btn-sm">题目</a>
+                                <a class="btn btn-info btn-sm"
+                                   href="{{URL::action('Admin\AdminController@editContest',array('id'=> $contest->id))}}">编辑</a>
+                                <a class="btn btn-info btn-sm"
+                                   href="{{URL::action('Admin\AdminController@listContestProblems',array('id'=> $contest->id))}}">题目</a>
                             </td>
                         </tr>
                     @endforeach
                 </table>
                 {{--<div class="form-group">--}}
-                    {{--<label>仅显示可见 <input type="checkbox"/></label>--}}
+                {{--<label>仅显示可见 <input type="checkbox"/></label>--}}
                 {{--</div>--}}
             </div>
         </div>

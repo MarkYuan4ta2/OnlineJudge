@@ -40,7 +40,8 @@
                             <td>{{ $announcement->updated_at }}</td>
                             <td>{{ $teacherList[$announcement->created_by]['name'] }}</td>
                             <td>
-                                <a class="btn btn-sm btn-info" onclick="modifyAnnouncement({{$announcement->id}})">编辑</a>
+                                <a class="btn btn-sm btn-info" onclick="modifyAnnouncement({{$announcement->id}});">编辑</a>
+                                <a class="btn btn-sm btn-danger" onclick="deleteAnnouncement({{$announcement->id}});">删除</a>
                             </td>
                             <input type="hidden" id="content_{{$announcement->id}}"
                                    value="{{ $announcement->content }}">
@@ -96,6 +97,19 @@
             $.post(
                     "{{URL::action('Admin\AdminController@saveAnnouncements')}}",
                     data,
+                    function (data, status) {
+                        alert(data);
+                        if (data == 'success') {
+                            location.reload();
+                        }
+                    }
+            );
+        }
+
+        function deleteAnnouncement(id) {
+            $.post(
+                    "{{URL::action('Admin\AdminController@deleteAnnouncements')}}",
+                    {id:id},
                     function (data, status) {
                         alert(data);
                         if (data == 'success') {

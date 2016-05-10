@@ -56,14 +56,30 @@ class AdminController extends Controller
 
     function addProblems(Request $request)
     {
-        return view('themes.default.Admin.problem_edit');
+        if ($request->user()->is_admin == 2) {
+            $contestList = Contest::all();
+        } else {
+            $contestList = Contest::where('created_by')->get();
+        }
+        $data = [
+            'contestList' => $contestList,
+        ];
+
+        return view('themes.default.Admin.problem_edit', $data);
     }
 
     function editProblems(Request $request)
     {
         $problem = Problem::where('id', $request->id)->first();
+        if ($request->user()->is_admin == 2) {
+            $contestList = Contest::all();
+        } else {
+            $contestList = Contest::where('created_by')->get();
+        }
+
         $data = [
             'problem' => $problem,
+            'contestList' => $contestList,
         ];
         return view('themes.default.Admin.problem_edit', $data);
     }
@@ -99,6 +115,7 @@ class AdminController extends Controller
         $problem->input_description = $problem_form['input_description'];
         $problem->output_description = $problem_form['output_description'];
         $problem->classification = $problem_form['classification'];
+        $problem->contest = $problem_form['contest'];
         $problem->test_case_in = $problem_form['test_case_in'];
         $problem->test_case_out = $problem_form['test_case_out'];
         $problem->created_by = $request->user()->id;
@@ -312,7 +329,7 @@ class AdminController extends Controller
         if ($request->user()->is_admin == 2) {
             $announcementList = Announcement::all();
         } else {
-            $announcementList = Announcement::where('created_by')->get();
+            $announcementList = Announcement::where('created_by', $request->user()->id)->get();
         }
         $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
 
@@ -343,6 +360,12 @@ class AdminController extends Controller
         return 'success';
     }
 
+    function deleteAnnouncements(Request $request)
+    {
+        Announcement::destroy($request->id);
+        return 'success';
+    }
+
     function listContests(Request $request)
     {
         if ($request->user()->is_admin == 2) {
@@ -365,18 +388,54 @@ class AdminController extends Controller
         return view('themes.default.Admin.contest_edit');
     }
 
+    function editContest(Request $request)
+    {
+        $contest = Contest::where('id', $request->id)->first();
+        $data = [
+            'contest' => $contest,
+        ];
+        return view('themes.default.Admin.contest_edit', $data);
+    }
+
     function saveContest(Request $request)
     {
-        $contest = new Contest;
+        if (isset($request->contest_id)) {
+            $contest = Contest::where('id', $request->contest_id)->first();
+        } else {
+            $contest = new Contest;
+        }
         $contest->name = $request->name;
         $contest->description = $request->description;
-        $contest->start_time = strtotime($request->start_time);
-        $contest->end_time = strtotime($request->end_time);
+        $contest->start_time = $request->start_time;//strtotime($request->start_time);
+        $contest->end_time = $request->end_time;//strtotime($request->end_time);
         $contest->state = 'not start';
         $contest->created_by = $request->user()->id;
 
         $contest->save();
 
         return redirect()->action('Admin\AdminController@listContests');
+    }
+
+    function listContestProblems(Request $request)
+    {
+        $contest = Contest::where('id', $request->id)->first();
+        $problemList = Problem::where('contest', $request->id)->get();
+        $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+
+        $data = [
+            "contest" => $contest,
+            "problemList" => $problemList,
+            "teacherList" => $teacherList,
+        ];
+        return view('themes.default.Admin.contest_problem_list', $data);
+    }
+
+    function deleteContestProblems(Request $request)
+    {
+        $problem = Problem::where('id', $request->id)->first();
+        $problem->contest = 0;
+        $problem->save();
+
+        return 'success';
     }
 }

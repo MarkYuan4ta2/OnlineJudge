@@ -40,6 +40,9 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('/groups', 'UserController@groups');
             Route::get('/groupDetail', 'UserController@groupDetail');
             Route::post('/groupApplication', 'UserController@groupApplication');
+            
+            //contest related
+            Route::get('/contests', 'UserController@contests');
         });
     });
 
@@ -75,10 +78,14 @@ Route::group(['middleware' => 'web'], function () {
         // announcements
         Route::get('/list_announcements', 'AdminController@listAnnouncements');
         Route::post('/save_announcement', 'AdminController@saveAnnouncements');
+        Route::post('/delete_announcement', 'AdminController@deleteAnnouncements');
 
         // contests
         Route::get('/list_contests', 'AdminController@listContests');
         Route::get('/add_contest', 'AdminController@addContest');
+        Route::get('/edit_contest', 'AdminController@editContest');
+        Route::get('/list_contest_problems', 'AdminController@listContestProblems');
+        Route::post('/delete_contest_problem','AdminController@deleteContestProblems');
         Route::post('/save_contest','AdminController@saveContest');
     });
 });

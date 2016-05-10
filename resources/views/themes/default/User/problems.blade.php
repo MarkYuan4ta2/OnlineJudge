@@ -44,10 +44,10 @@
                                 </th>
                                 <td>{{ $problemList[$i]->difficulty }}</td>
                                 <td>
-                                    @if($problemList[$i]->total_submit_number == 0 || $problem->total_accepted_number == 0)
+                                    @if($problemList[$i]->total_submit_number == 0 || $problemList[$i]->total_accepted_number == 0)
                                         0%
                                     @else
-                                        {{ floor($problemList[$i]->total_accepted_number/$problem->total_submit_number) }}
+                                        {{ floor($problemList[$i]->total_accepted_number/$problemList[$i]->total_submit_number) }}
                                         %
                                         ({{$problemList[$i]->total_accepted_number}}
                                         /{{$problemList[$i]->total_submit_number}})

@@ -37,15 +37,14 @@
                         <trix-editor input="description"></trix-editor>
                     </div>
 
-
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group"><label>时间限制(ms, 范围1-10000ms)</label>
                             <input type="number" name="time_limit" class="form-control"
                                    value="@if(isset($problem)){{$problem->time_limit}}@endif">
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="form-group"><label>内存限制(MB, 最低16M, Java不能低于32M)</label>
                             <input type="number" name="memory_limit" class="form-control"
                                    value="@if(isset($problem)){{$problem->memory_limit}}@endif">
@@ -53,6 +52,16 @@
                         </div>
                     </div>
                     <div class="col-md-3">
+                        <div class=" form-group">
+                            <label>前台是否可见</label><br>
+                            <label><input type="checkbox" name="visible"
+                                          @if(isset($problem) and $problem->visible==1)checked="checked"@endif>
+                                <small>可见</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
                         <div class="form-group"><label>难度</label>
                             <select name="difficulty" class="form-control">
                                 <option value="easy"
@@ -73,18 +82,22 @@
                     <div id="tag" class="col-md-4">
                         <label>分类</label>
                         <select name="classification" class="form-control">
+                            {{--classificationList 来自appprovider--}}
                             @foreach($classificationList as $item)
                                 <option value="{{$item['id']}}">{{$item['name']}}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-3 form-group">
-                        <label>前台是否可见</label><br>
-                        <label><input type="checkbox" name="visible"
-                                      @if(isset($problem) and $problem->visible==1)checked="checked"@endif>
-                            <small>可见</small>
-                        </label>
+                    <div id="tag" class="col-md-4">
+                        <label>比赛</label>
+                        <select name="contest" class="form-control">
+                            <option value="0">无</option>
+                            @foreach($contestList as $item)
+                                <option value="{{$item['id']}}">{{$item['name']}}</option>
+                            @endforeach
+                        </select>
                     </div>
+
                     <div class="col-md-12 form-group">
                         <label>输入描述</label><br>
                         <input type="hidden" id="input_description" name="input_description"

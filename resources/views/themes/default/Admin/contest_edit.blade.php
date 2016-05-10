@@ -23,37 +23,44 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <input type="text" name="name" class="form-control"
-                                   data-error="请填写比赛名称(名称不能超过50个字)">
-                            <div class="help-block with-errors"></div>
+                                   data-error="请填写比赛名称(名称不能超过50个字)"
+                                   value="@if(isset($contest)){{$contest->name}}@endif">
+                            <div class=" help-block with-errors">
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <label>说明</label>
                         <div class="form-group">
-                            <input type="hidden" id="input_description" name="description">
-                            {{--value="@if(isset($problem)){{$problem->input_description}}@endif">--}}
+                            <input type="hidden" id="input_description" name="description"
+                                   value="@if(isset($contest)){{$contest->description}}@endif">
                             <trix-editor input="input_description"></trix-editor>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label>开始时间</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="start_time" id="contest_start_time">
-                            <div class="help-block with-errors"></div>
+                            <input type="text" class="form-control" name="start_time" id="contest_start_time"
+                                   value="@if(isset($contest)){{$contest->start_time}}@endif">
+                            <div class=" help-block with-errors">
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label>结束时间</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="end_time" id="contest_end_time">
-                            <div class="help-block with-errors"></div>
+                            <input type="text" class="form-control" name="end_time" id="contest_end_time"
+                                   value="@if(isset($contest)){{$contest->end_time}}@endif">
+                            <div class=" help-block with-errors">
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                     </div>
 
                     <div class="col-md-12">
-                        <input type="submit" class="btn btn-success btn-lg" value="发布比赛">
+                        @if(isset($_GET['id']))<input type="hidden" value="{{$_GET['id']}}" name="contest_id">@endif
+                        <input type="submit" class="btn btn-success btn-lg" value="@if(isset($_GET['id']))提交修改@else发布比赛@endif">
                     </div>
 
                     {{--laravel身份认证--}}
