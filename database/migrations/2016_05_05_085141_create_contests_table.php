@@ -17,7 +17,7 @@ class CreateContestsTable extends Migration
             $table->string('name');
             $table->timestamp('start_time');
             $table->timestamp('end_time');
-            $table->enum('state', ['start', 'end', 'not start', 'other']);//'not start' and 'other' state won't let user get in
+            $table->enum('state', ['start', 'end', 'not_start', 'other']);//'not start' and 'other' state won't let user get in
             $table->longText('description');
             $table->integer('created_by');
             $table->timestamps();

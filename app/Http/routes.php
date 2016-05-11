@@ -43,6 +43,8 @@ Route::group(['middleware' => 'web'], function () {
             
             //contest related
             Route::get('/contests', 'UserController@contests');
+            Route::get('/contestDetail', 'UserController@contestDetail');
+            Route::get('/contestRank', 'UserController@contestRank');
         });
     });
 

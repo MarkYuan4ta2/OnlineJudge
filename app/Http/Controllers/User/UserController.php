@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Contest;
 use App\Group;
 use App\group_user;
-use Illuminate\Foundation\Auth\User;
+//use Illuminate\Foundation\Auth\User;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -22,7 +24,7 @@ class UserController extends Controller
     {
         if ($request->hasFile('fileToUpload')) {
             $avatar = $request->file('fileToUpload');
-            $avatarName = $request->user()->name . md5($request->user()->email) .'.' . $avatar->getClientOriginalExtension();
+            $avatarName = $request->user()->name . md5($request->user()->email) . '.' . $avatar->getClientOriginalExtension();
             $avatarPath = $avatar->move(public_path() . '/uploads/avatars/', $avatarName);
 
             $UserInfo = User::where('id', $request->user()->id)->first();
@@ -51,11 +53,11 @@ class UserController extends Controller
         $groupInfo = Group::where('id', $request->id)->first();
         $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
 
-        $joined = group_user::where(['user_id'=> $request->user()->id, 'group_id'=>$request->id])->count();
-        $joined = ($joined!=0);
+        $joined = group_user::where(['user_id' => $request->user()->id, 'group_id' => $request->id])->count();
+        $joined = ($joined != 0);
 
         $data = [
-            'joined'=>$joined,
+            'joined' => $joined,
             'groupInfo' => $groupInfo,
             'teacherList' => $teacherList,
         ];
@@ -77,5 +79,43 @@ class UserController extends Controller
         $application->save();
 
         return 'success';
+    }
+
+    function contests(Request $request)
+    {
+        $groupList = User::where('id', $request->user()->id)->first()->groups()->get();
+        $groupLeaderList = $groupList->pluck('leader_id')->unique();
+        $contestList = Contest::whereIn('created_by', $groupLeaderList)->orderBy('updated_at', 'desc')->get();
+        $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+
+        $data = [
+            'contestList' => $contestList,
+            'teacherList' => $teacherList,
+        ];
+
+        return view('themes.default.User.contests', $data);
+    }
+
+    function contestDetail(Request $request)
+    {
+        $problemList = Contest::where('id', $request->id)->first()->problems()->get();
+        $contest = Contest::where('id', $request->id)->first();
+        $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+
+        $data = [
+            'contest' => $contest,
+            'teacherList' => $teacherList,
+            'problemList' => $problemList,
+        ];
+
+        return view('themes.default.User.contest_detail', $data);
+    }
+
+    function contestRank(Request $request)
+    {
+        $groupList = Contest::where('id', $request->id)->first()->groups()->get();
+//        $groupList = Group::where('id', $request->id)->first()->users()->get();
+
+        dd($groupList);
     }
 }
