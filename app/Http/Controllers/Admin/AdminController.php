@@ -6,6 +6,7 @@ use App\Announcement;
 use App\Classification;
 use App\Contest;
 use App\Group;
+use App\group_contest;
 use App\group_user;
 use App\Problem;
 use App\Submission;
@@ -264,6 +265,35 @@ class AdminController extends Controller
             ];
             return view('themes.default.Admin.group_detail', $data);
         }
+    }
+
+    function joinContests(Request $request)
+    {
+        //get already joined contests list
+        $groupContests = Group::where(['id' => $request->id])->first()->contests()->get();
+        //get contests list not joined
+        $contestList = Contest::where('state', 'not_start')->whereNotIn('id', $groupContests->pluck('id'))->get();
+        $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
+
+        $data = [
+            'groupId' => $request->id,
+            'groupContests' => $groupContests,
+            'contestList' => $contestList,
+            'teacherList' => $teacherList,
+        ];
+
+        return view('themes.default.Admin.group_contest_list', $data);
+    }
+
+    function joinInContests(Request $request)
+    {
+        $joinContestInfo = new group_contest;
+        $joinContestInfo->group_id = $request->g_id;
+        $joinContestInfo->contest_id = $request->c_id;
+
+        $joinContestInfo->save();
+
+        return 'success';
     }
 
     function groupApplicationList(Request $request)

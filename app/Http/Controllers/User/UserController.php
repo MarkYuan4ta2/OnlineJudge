@@ -84,8 +84,13 @@ class UserController extends Controller
     function contests(Request $request)
     {
         $groupList = User::where('id', $request->user()->id)->first()->groups()->get();
-        $groupLeaderList = $groupList->pluck('leader_id')->unique();
-        $contestList = Contest::whereIn('created_by', $groupLeaderList)->orderBy('updated_at', 'desc')->get();
+
+        $contestList = collect();
+        foreach ($groupList as $group) {
+            $contestList = $contestList->merge($group->contests()->get());
+        }
+        $contestList = $contestList->keyBy('name');
+
         $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
 
         $data = [
@@ -113,9 +118,52 @@ class UserController extends Controller
 
     function contestRank(Request $request)
     {
-        $groupList = Contest::where('id', $request->id)->first()->groups()->get();
-//        $groupList = Group::where('id', $request->id)->first()->users()->get();
+        $contest = Contest::where('id', $request->id)->first();
+        $groupList = $contest->groups()->get();
+        $userList = collect();
+        foreach ($groupList as $group) {
+            $userList = $userList->merge($group->users()->get());
+        }
+        $userList = $userList->keyBy('name');
 
-        dd($groupList);
+        foreach ($userList as $user) {
+            $info = $this->personalContestSubInfo($user, $contest);
+            foreach ($info as $k => $v) {
+                $userList[$user['name']][$k] = $v;
+            }
+        }
+        $userList = $userList->sortBy('totalAcceptCount')->keyBy('id');
+//        dd($userList);
+
+        $data = [
+            'contest' => $contest,
+            'userList' => $userList,
+        ];
+
+        return view('themes.default.User.contest_rank', $data);
+    }
+
+    private function personalContestSubInfo(User $user, Contest $contest)
+    {
+        $submissionList = $user->submissions()
+            ->where('created_at', '>', $contest['start_time'])
+            ->where('created_at', '<', $contest['end_time'])
+            ->get();
+
+        $totalSubmissionsCount = $submissionList->count();
+        $totalAcceptCount = $submissionList->where('result', 'Accepted')->keyBy('problem_id')->count();
+        $acceptCount = $submissionList->where('result', 'Accepted')->count();
+        $waitingCount = $submissionList->where('result', 'Waiting')->count();
+        $otherCount = $submissionList->count() - $acceptCount - $waitingCount;
+
+        $info = [
+            'totalSubmissionsCount' => $totalSubmissionsCount,
+            'totalAccpetCount' => $totalAcceptCount,
+            'acceptCount' => $acceptCount,
+            'waitingCount' => $waitingCount,
+            'otherCount' => $otherCount,
+        ];
+
+        return $info;
     }
 }

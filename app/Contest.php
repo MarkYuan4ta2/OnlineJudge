@@ -14,6 +14,7 @@ class Contest extends Model
 
     public function groups()
     {
-        return $this->hasMany('App\Group', 'leader_id', 'created_by');
+//        return $this->hasMany('App\Group', 'leader_id', 'created_by');
+        return $this->belongsToMany('App\Group', 'group_contests', 'contest_id', 'group_id');
     }
 }

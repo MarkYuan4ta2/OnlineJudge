@@ -42,6 +42,8 @@
                             <td>
                                 <a class="btn btn-sm btn-info"
                                    href="{{URL::action('Admin\AdminController@groupDetail',array('id'=>$group->id))}}">管理</a>
+                                <a class="btn btn-sm btn-warning"
+                                   href="{{URL::action('Admin\AdminController@joinContests',array('id'=>$group->id))}}">参加比赛</a>
                             </td>
                         </tr>
                     @endforeach

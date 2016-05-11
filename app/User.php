@@ -28,4 +28,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Group', 'group_users', 'user_id', 'group_id');
     }
+
+    public function submissions()
+    {
+        return $this->hasMany('App\Submission', 'student_id', 'id');
+    }
 }

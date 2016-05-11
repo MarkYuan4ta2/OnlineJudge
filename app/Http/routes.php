@@ -52,7 +52,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['namespace' => 'Admin', 'middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::get('/', 'AdminController@index');
 
-
         // problems
         Route::get('/list_problems', 'AdminController@listProblems');
         Route::get('/add_problems', 'AdminController@addProblems');
@@ -74,6 +73,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/save_group', 'AdminController@saveGroup');
         Route::get('/group_detail', 'AdminController@groupDetail');
         Route::get('/group_applications', 'AdminController@groupApplicationList');
+        Route::get('/join_contests', 'AdminController@joinContests');
+        Route::post('/join_in_contest', 'AdminController@joinInContests');
         Route::post('/reply_group_application', 'AdminController@replyApplication');
         Route::post('/remove_member', 'AdminController@removeMember');
 
