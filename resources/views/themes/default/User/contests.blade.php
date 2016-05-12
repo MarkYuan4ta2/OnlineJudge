@@ -43,7 +43,11 @@
                                     <td>{{ $contest->start_time }}</td>
                                     <td>{{ $contest->end_time }}</td>
                                     <td>{{ $teacherList[$contest->created_by]->name }}</td>
-                                    <td class="">{{ trans('messages.'.$contest->state) }}</td>
+                                    <td class="@if($contest->state == 'start')alert-success
+                                            @elseif($contest->state == 'not_start')alert-warning
+                                            @else alert-danger
+                                            @endif
+                                    ">{{ trans('messages.'.$contest->state) }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

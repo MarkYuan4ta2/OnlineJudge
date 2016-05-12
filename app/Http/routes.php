@@ -45,6 +45,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('/contests', 'UserController@contests');
             Route::get('/contestDetail', 'UserController@contestDetail');
             Route::get('/contestRank', 'UserController@contestRank');
+            Route::get('/contestProblemDetail', 'UserController@contestProblemDetail');
         });
     });
 

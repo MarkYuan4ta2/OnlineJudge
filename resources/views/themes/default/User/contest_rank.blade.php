@@ -25,23 +25,25 @@
                     <table class="table table-bordered text-center">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <th>ID</th>
                             <th class="text-center">用户名</th>
-                            <th class="text-center">AC / 总提交</th>
+                            <th class="text-center">通过数</th>
+                            <th class="text-center">总提交</th>
                         </tr>
                         </thead>
                         <tbody class="rank">
-                        @for($i = 1; $i < count($userList)+1; $i++)
+                        @foreach($userList as $user)
                             <tr>
-                                <th scope="row">{{$i}}</th>
+                                <th scope="row">{{$user->id}}</th>
                                 <td>
                                     <a>
-                                        {{ $userList[$i]->name }}
+                                        {{ $user->name }}
                                     </a>
                                 </td>
-                                <td>{{ $userList[$i]->totalAccpetCount }} / {{ $userList[$i]->totalSubmissionsCount }}</td>
+                                <td>{{ $user->totalAccpetCount }}</td>
+                                <td>{{ $user->totalSubmissionsCount }}</td>
                             </tr>
-                        @endfor
+                        @endforeach
                         </tbody>
                     </table>
                 @else

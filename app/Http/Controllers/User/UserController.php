@@ -6,11 +6,13 @@ use App\Contest;
 use App\Group;
 use App\group_user;
 //use Illuminate\Foundation\Auth\User;
+use App\Problem;
 use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Collection;
 
 class UserController extends Controller
 {
@@ -83,7 +85,10 @@ class UserController extends Controller
 
     function contests(Request $request)
     {
-        $groupList = User::where('id', $request->user()->id)->first()->groups()->get();
+        //refresh contest state
+        $this->contestStateCheck();
+        //获得所有已加入的小组
+        $groupList = User::where('id', $request->user()->id)->first()->groups()->where('accepted', true)->get();
 
         $contestList = collect();
         foreach ($groupList as $group) {
@@ -103,6 +108,9 @@ class UserController extends Controller
 
     function contestDetail(Request $request)
     {
+        //refresh contest state
+        $this->contestStateCheck();
+        
         $problemList = Contest::where('id', $request->id)->first()->problems()->get();
         $contest = Contest::where('id', $request->id)->first();
         $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
@@ -114,6 +122,23 @@ class UserController extends Controller
         ];
 
         return view('themes.default.User.contest_detail', $data);
+    }
+
+    function contestProblemDetail(Request $request)
+    {
+        $problemId = $request->p_id;
+        $contestId = $request->c_id;
+        //这里暂时不考虑直接修改链接进来的情况
+        $problem = Problem::where(['id' => $problemId])->first();
+        $contest = Contest::where(['id' => $contestId])->first();
+        $teacher = User::where('id', $contest->created_by)->first();
+        $data = [
+            'problem' => $problem,
+            'contest' => $contest,
+            'teacher' => $teacher,
+        ];
+
+        return view('themes.default.User.contest_problem_detail', $data);
     }
 
     function contestRank(Request $request)
@@ -132,7 +157,7 @@ class UserController extends Controller
                 $userList[$user['name']][$k] = $v;
             }
         }
-        $userList = $userList->sortBy('totalAcceptCount')->keyBy('id');
+        $userList = $userList->sortBy('totalAcceptCount');//->keyBy('id');
 //        dd($userList);
 
         $data = [
@@ -141,6 +166,30 @@ class UserController extends Controller
         ];
 
         return view('themes.default.User.contest_rank', $data);
+    }
+
+    //刷新other、end之外的比赛状态
+    private function contestStateCheck()
+    {
+        $contestList = Contest::whereNotIn('state', ['other', 'end'])->get();
+        foreach ($contestList as $contest) {
+            if ($contest->state == 'not_start') {
+                if (strtotime($contest->start_time) < time()) {
+                    $contest->state = 'start';
+                    if (strtotime($contest->end_time) < time()) {
+                        $contest->state = 'end';
+                    }
+                    $contest->save();
+                }
+            } elseif ($contest->state == 'start') {
+                if (strtotime($contest->end_time) < time()) {
+                    $contest->state = 'end';
+                    $contest->save();
+                }
+            } else {
+                dd('you got something wrong with your contest table!');
+            }
+        }
     }
 
     private function personalContestSubInfo(User $user, Contest $contest)

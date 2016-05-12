@@ -22,35 +22,40 @@
                 </tr>
                 </thead>
                 <tbody>
-                @for($i = 0; $i < count($submissions); $i++)
+                @foreach($submissions as $submission)
                     <tr>
                         <th scope="row">
-                            <a href="{{ URL::action('User\ProblemsController@submissionDetail',array('id'=>$submissions[$i]['id'])) }}">
-                                {{$i+1}}
+                            <a href="{{ URL::action('User\ProblemsController@submissionDetail',array('id'=>$submission->id)) }}">
+                                {{$submission->id}}
                             </a>
                         </th>
                         <td>
-                            <a href="{{ URL::action('User\ProblemsController@problemDetail',array('id'=>$submissions[$i]['problem_id'])) }}">
-                                {{ $problems[$submissions[$i]['problem_id']]['title'] }}
+                            <a href="{{ URL::action('User\ProblemsController@problemDetail',array('id'=>$submission->problem_id)) }}">
+                                {{ $problemList[$submission->problem_id]->title }}
                             </a>
                         </td>
-                        <td>{{ $submissions[$i]['created_at'] }}</td>
+                        <td>{{ $submission->created_at }}</td>
                         <td>
-                            {{ $submissions[$i]['language'] }}
+                            {{ $submission->language }}
                         </td>
                         <td>
-                            @if($submissions[$i]['run_time'] == -1)
+                            @if($submission->run_time == -1)
                                 该提交尚未运行完毕
                             @else
-                                {{ $submissions[$i]['run_time'] }}ms
+                                {{ $submission->run_time }}ms
                             @endif
                         </td>
-                        <td class="alert-{{-- item.result|translate_result_class --}}">
-                            <strong>{{ $submissions[$i]['result'] }}</strong>
+                        <td class=
+                            @if($submission->result == 'Accepted')"alert-success"
+                        @elseif($submission->result == 'Waiting')"alert-warning"
+                        @else"alert-danger"
+                        @endif
+                        >
+                        <strong>{{ $submission->result }}</strong>
                         </td>
 
                     </tr>
-                @endfor
+                @endforeach
 
                 </tbody>
             </table>

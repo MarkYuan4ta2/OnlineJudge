@@ -44,40 +44,46 @@
         </div>
 
         <hr>
-        <h2 class="text-center">题目列表</h2>
-        <div>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>题目</th>
-                    <th>难度</th>
-                    <th>通过率</th>
-                </tr>
-                </thead>
-                <tbody>
-                @for($i = 0; $i < count($problemList); $i++)
+        @if($contest->state != 'not_start' and $contest->state != 'other')
+            <h2 class="text-center">题目列表</h2>
+            <div>
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <th>
-                            <span class="">{{$i+1}}</span>
-                        </th>
-                        <th scope="row"><a
-                                    href="{{ URL::action('User\ProblemsController@problemDetail',array('id'=>$problemList[$i]->id)) }}">{{ $problemList[$i]->title }}</a>
-                        </th>
-                        <td>{{ $problemList[$i]->difficulty }}</td>
-                        <td>
-                            @if($problemList[$i]->total_submit_number == 0 || $problemList[$i]->total_accepted_number == 0)
-                                0%
-                            @else
-                                {{ floor($problemList[$i]->total_accepted_number/$problemList[$i]->total_submit_number) }}
-                                %
-                            @endif
-                        </td>
+                        <th>#</th>
+                        <th>题目</th>
+                        <th>难度</th>
+                        <th>通过率</th>
                     </tr>
-                @endfor
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                    @for($i = 0; $i < count($problemList); $i++)
+                        <tr>
+                            <th>
+                                <span class="">{{$i+1}}</span>
+                            </th>
+                            <th scope="row"><a
+                                        href="{{ URL::action('User\UserController@contestProblemDetail',array('p_id'=>$problemList[$i]->id, 'c_id'=>$contest->id)) }}">{{ $problemList[$i]->title }}</a>
+                            </th>
+                            <td>{{ $problemList[$i]->difficulty }}</td>
+                            <td>
+                                @if($problemList[$i]->total_submit_number == 0 || $problemList[$i]->total_accepted_number == 0)
+                                    0%
+                                @else
+                                    {{ floor($problemList[$i]->total_accepted_number/$problemList[$i]->total_submit_number) }}
+                                    %
+                                @endif
+                            </td>
+                        </tr>
+                    @endfor
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <div class="alert alert-warning" role="alert">
+                <p>当前题目还未揭晓</p>
+            </div>
+        @endif
 
     </div>
 @endsection

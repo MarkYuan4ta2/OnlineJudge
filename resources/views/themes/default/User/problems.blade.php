@@ -31,6 +31,7 @@
                             <th>题目</th>
                             <th>难度</th>
                             <th>通过率</th>
+                            <th>是否通过</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -45,14 +46,19 @@
                                 <td>{{ $problemList[$i]->difficulty }}</td>
                                 <td>
                                     @if($problemList[$i]->total_submit_number == 0 || $problemList[$i]->total_accepted_number == 0)
-                                        0%
+                                        0 %
                                     @else
-                                        {{ floor($problemList[$i]->total_accepted_number/$problemList[$i]->total_submit_number) }}
+                                        {{ floor($problemList[$i]->total_accepted_number/$problemList[$i]->total_submit_number*100) }}
                                         %
                                         ({{$problemList[$i]->total_accepted_number}}
                                         /{{$problemList[$i]->total_submit_number}})
                                     @endif
                                 </td>
+                                @if($problemList[$i]->accepted == 1)
+                                    <td class="alert-success"><span class="glyphicon glyphicon-ok"></span></td>
+                                @else
+                                    <td><span class="glyphicon glyphicon-minus"></span></td>
+                                @endif
                             </tr>
                         @endfor
                         </tbody>

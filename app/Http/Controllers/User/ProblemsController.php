@@ -16,7 +16,23 @@ class ProblemsController extends Controller
     function index(Request $request)
     {
         $problemList = Problem::where('visible', 1)->get();
-        return view('themes.default.User.problems', ['problemList' => $problemList]);
+
+        for ($i = 0; $i < count($problemList); $i++) {
+            $problemList[$i]['accepted'] = 0;
+            $totalSubmissionCount = $problemList[$i]->submissions()->get()->count();
+            $acceptedSubmissionCount = $problemList[$i]->acceptedSubmissions()->get()->count();
+            $problemList[$i]->total_submit_number = $totalSubmissionCount;
+            $problemList[$i]->total_accepted_number = $acceptedSubmissionCount;
+            
+            if ($acceptedSubmissionCount > 0) {
+                $problemList[$i]['accepted'] = 1;
+            }
+        }
+
+        $data = [
+            'problemList' => $problemList,
+        ];
+        return view('themes.default.User.problems', $data);
     }
 
     //go display one certain problems info
@@ -74,10 +90,11 @@ class ProblemsController extends Controller
             $filter = ['student_id' => $request->user()->id];
         }
         $submissions = Submission::where($filter)->get();
-        $problemList = Problem::where('visible', 1)->get()->keyBy('id');
+        $problemList = Problem::all()->keyBy('id');
+//        dd($problemList);
         $data = [
             'submissions' => $submissions,
-            'problems' => $problemList
+            'problemList' => $problemList
         ];
 
         return view('themes.default.User.submissions', $data);

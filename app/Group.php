@@ -15,4 +15,9 @@ class Group extends Model
     {
         return $this->belongsToMany('App\Contest', 'group_contests', 'group_id', 'contest_id');
     }
+
+    public function applications()
+    {
+        return $this->hasMany('App\group_user', 'group_id', 'id');
+    }
 }

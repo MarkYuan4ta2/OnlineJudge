@@ -249,7 +249,11 @@ class AdminController extends Controller
 
     function groupDetail(Request $request)
     {
-        $groupInfo = Group::where(['id' => $request->id, 'leader_id' => $request->user()->id])->first();
+        if ($request->user()->is_admin == 2) {
+            $groupInfo = Group::where(['id' => $request->id])->first();
+        } else{
+            $groupInfo = Group::where(['id' => $request->id, 'leader_id' => $request->user()->id])->first();
+        }
         //prevent some admins who want to access someone else's group detail
         if ($groupInfo == null) {
             return redirect()->action('Admin\AdminController@listGroups');
@@ -299,11 +303,15 @@ class AdminController extends Controller
     function groupApplicationList(Request $request)
     {
         if ($request->user()->is_admin == 2) {
+            $groupList = Group::all()->keyBy('id');
             $applicationList = group_user::where('accepted', false)->get();
         } else {
-            $applicationList = group_user::where(['accepted' => false, 'leader_id' => $request->user()->id])->get();
+            $groupList = $request->user()->hasGroups()->get()->keyBy('id');
+            $applicationList = collect();
+            foreach ($groupList as $group) {
+                $applicationList = $applicationList->merge($group->applications()->where('accepted', false)->get());
+            }
         }
-        $groupList = Group::all()->keyBy('id');
         $userList = User::all()->keyBy('id');
 
         $data = [

@@ -14,7 +14,7 @@ return [
     'login' => '登陆',
     'register' => '注册',
     'logout' => '退出',
-    'start' => '开始',
+    'start' => '进行中',
     'not_start' => '未开始',
     'end' => '结束',
     'other' => '其他',
