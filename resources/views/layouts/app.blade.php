@@ -77,7 +77,7 @@
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <img class="sm-avatar" src="{{asset(Auth::user()->avatar)}}">
+                            <img class="sm-avatar" src="@if(Auth::user()->avatar){{asset(Auth::user()->avatar)}}@else{{asset('uploads/avatars/avatar_default.png')}}@endif">
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
