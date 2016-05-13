@@ -15,16 +15,13 @@ class ProblemsController extends Controller
     //list all the problems
     function index(Request $request)
     {
-        $problemList = Problem::where('visible', 1)->get();
+        $this->refreshProblemSubmissionsCount();
+        $problemList = Problem::where('visible', 1)->orderBy('id', 'desc')->get();
 
         for ($i = 0; $i < count($problemList); $i++) {
             $problemList[$i]['accepted'] = 0;
-            $totalSubmissionCount = $problemList[$i]->submissions()->get()->count();
-            $acceptedSubmissionCount = $problemList[$i]->acceptedSubmissions()->get()->count();
-            $problemList[$i]->total_submit_number = $totalSubmissionCount;
-            $problemList[$i]->total_accepted_number = $acceptedSubmissionCount;
-            
-            if ($acceptedSubmissionCount > 0) {
+
+            if ($problemList[$i]->total_accepted_number > 0) {
                 $problemList[$i]['accepted'] = 1;
             }
         }
@@ -33,6 +30,21 @@ class ProblemsController extends Controller
             'problemList' => $problemList,
         ];
         return view('themes.default.User.problems', $data);
+    }
+
+    function refreshProblemSubmissionsCount()
+    {
+        $problemList = Problem::all();
+        foreach ($problemList as $problem) {
+            if ($problem->total_submit_number != $problem->submissions()->get()->count()) {
+                $problem->total_submit_number = $problem->submissions()->get()->count();
+                $problem->save();
+            }
+            if ($problem->total_accepted_number != $problem->acceptedSubmissions()->get()->count()) {
+                $problem->total_accepted_number = $problem->acceptedSubmissions()->get()->count();
+                $problem->save();
+            }
+        }
     }
 
     //go display one certain problems info

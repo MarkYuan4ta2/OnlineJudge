@@ -251,7 +251,7 @@ class AdminController extends Controller
     {
         if ($request->user()->is_admin == 2) {
             $groupInfo = Group::where(['id' => $request->id])->first();
-        } else{
+        } else {
             $groupInfo = Group::where(['id' => $request->id, 'leader_id' => $request->user()->id])->first();
         }
         //prevent some admins who want to access someone else's group detail
