@@ -23,6 +23,7 @@ class CreateSubmissionsTable extends Migration
             $table->longText('compile_result');
             $table->string('run_result');
             $table->enum('result', ['Accepted', 'Runtime Error', 'Time Limit Exceeded', 'Memory Limit Exceeded', 'Compile Error', 'Wrong Answer', 'System Error', 'Waiting']);
+            $table->integer('cheching')->default(0);
         });
     }
 
