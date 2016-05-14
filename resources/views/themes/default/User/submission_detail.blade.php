@@ -13,7 +13,7 @@
     <div class="container main">
         <ul class="nav nav-tabs nav-tabs-google">
             <li role="presentation">
-                <a href="">题目</a>
+                <a href="{{URL::action('User\ProblemsController@problemDetail', array('id'=>$problem->id))}}">题目</a>
             </li>
             <li role="presentation" class="active">
                 <a href="">我的提交</a>

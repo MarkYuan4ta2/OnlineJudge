@@ -127,6 +127,7 @@
         function submitCode() {
             if (!submitted) {
                 submitted = true;
+                $('.result-box').css('display', 'none');
             } else {
                 return;
             }
