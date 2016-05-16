@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        @if($submission->compile_result == 'Compile Error')
+        @if($submission->result == 'Compile Error')
         <div class="panel panel-default">
             <div class="panel-body">
                 <h4>Compile result</h4>
