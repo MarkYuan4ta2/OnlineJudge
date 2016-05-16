@@ -13,7 +13,7 @@
         <div class="row">
             @include('themes.default.Admin.adminLeftBar')
             <div class="col-md-9 col-lg-9">
-                <h1>分类列表</h1>
+                <h1>用户列表</h1>
 
                 <div class="right">
                     <form class="form-inline" onsubmit="return false;">

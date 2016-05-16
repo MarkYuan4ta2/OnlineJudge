@@ -21,6 +21,7 @@
                       action="{{ URL::action('Admin\AdminController@saveContest')}}">
 
                     <div class="col-md-12">
+                        <label>比赛名称</label>
                         <div class="form-group">
                             <input type="text" name="name" class="form-control"
                                    data-error="请填写比赛名称(名称不能超过50个字)"
