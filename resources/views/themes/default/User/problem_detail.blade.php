@@ -141,7 +141,6 @@
                 data: {code: code, language: language, problemId: problemId},
                 dataType: 'json',
                 success: function (data) {
-                    //todo data should contain the run time, result
                     console.log(data);
                     submissionId = data.submissionId;
                     //5秒后去查看
@@ -171,7 +170,6 @@
         }
 
         function afterSubmit(data) {
-            //todo display the result
             var resultBox = $('.result-box');
             var resultLink = '<a href="{{URL::action('User\ProblemsController@submissionDetail')}}?id=' + data.submissionId + '">查看详情</a>';
             resultBox.html(data.result + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run time:&nbsp;&nbsp;' + data.time + 'ms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + resultLink);

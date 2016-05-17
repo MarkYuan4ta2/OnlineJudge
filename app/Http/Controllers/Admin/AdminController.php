@@ -126,7 +126,6 @@ class AdminController extends Controller
         $random_key = $problem->difficulty . md5($problem->created_by . $problem->title . time());
         $problem->random_key = $random_key;
 
-        //todo:add contest
         if ($request->hasFile('final_case_in')) {
 //            dd('get final_case_in');
             $case_in = $request->file('final_case_in');
