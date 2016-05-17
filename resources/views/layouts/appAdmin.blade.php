@@ -8,7 +8,8 @@
     <title>@yield('title')</title>
 
     <!-- Fonts -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet'
+          type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
 
     <!-- Styles -->
@@ -16,9 +17,12 @@
     <!--各页面导入各自的样式表-->
     @yield('style')
     <link rel="shortcut icon" href="{{ asset('themes/default/images/ico/32.png') }}" sizes="32x32" type="image/png"/>
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('themes/default/images/ico/72.png') }}" type="image/png"/>
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{{ asset('themes/default/images/ico/120.png') }}" type="image/png"/>
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('themes/default/images/ico/152.png') }}" type="image/png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('themes/default/images/ico/72.png') }}"
+          type="image/png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{{ asset('themes/default/images/ico/120.png') }}"
+          type="image/png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('themes/default/images/ico/152.png') }}"
+          type="image/png"/>
 
 
     <style>
@@ -32,52 +36,58 @@
     </style>
 </head>
 <body id="app-layout">
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
 
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+            <!-- Collapsed Hamburger -->
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#app-navbar-collapse">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    OnlineJudge
-                </a>
-            </div>
-
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/admin') }}">Home</a></li>
-                </ul>
-
-                <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
-                            </a>
-
-                            @include('layouts.rightNavbar')
-                        </li>
-                </ul>
-            </div>
+            <!-- Branding Image -->
+            <a class="navbar-brand" href="{{ url('/') }}">
+                OnlineJudge
+            </a>
         </div>
-    </nav>
 
-    @yield('content')
+        <div class="collapse navbar-collapse" id="app-navbar-collapse">
+            <!-- Left Side Of Navbar -->
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url('/admin') }}">{{ trans('messages.home') }}</a></li>
+                <li><a href="{{ url('/problems') }}">{{ trans('messages.problems') }}</a></li>
+                <li><a href="{{ url('/contests') }}">{{ trans('messages.contests') }}</a></li>
+                <li><a href="{{ url('/groups') }}">{{ trans('messages.groups') }}</a></li>
+            </ul>
 
-    <!-- JavaScripts -->
-    @yield('script_before')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    @yield('script')
+            <!-- Right Side Of Navbar -->
+            <ul class="nav navbar-nav navbar-right">
+                <!-- Authentication Links -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <img class="sm-avatar"
+                             src="@if(Auth::user()->avatar){{asset(Auth::user()->avatar)}}@else{{asset('uploads/avatars/avatar_default.png')}}@endif">
+                        {{ Auth::user()->name }} <span class="caret"></span>
+                    </a>
+
+                    @include('layouts.rightNavbar')
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+@yield('content')
+
+        <!-- JavaScripts -->
+@yield('script_before')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+@yield('script')
 
 </body>
 </html>

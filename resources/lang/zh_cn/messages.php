@@ -18,4 +18,5 @@ return [
     'not_start' => '未开始',
     'end' => '结束',
     'other' => '其他',
+    'home' => '主页',
 ];
