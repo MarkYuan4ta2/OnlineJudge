@@ -121,9 +121,9 @@ class AdminController extends Controller
         $problem->test_case_out = $problem_form['test_case_out'];
         $problem->created_by = $request->user()->id;
 
-        //get random key by md5 created_by field and title field and current time stamp
+        //get random key by md5 created_by field and title field
         //the result of md5 might start with number, so add difficult field as header
-        $random_key = $problem->difficulty . md5($problem->created_by . $problem->title . time());
+        $random_key = $problem->difficulty . md5($problem->created_by . $problem->title);
         $problem->random_key = $random_key;
 
         if ($request->hasFile('final_case_in')) {
