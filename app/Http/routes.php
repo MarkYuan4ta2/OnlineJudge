@@ -16,6 +16,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// help page
+Route::get('/help', 'UserController@help');
+
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
@@ -46,9 +49,6 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('/contestDetail', 'UserController@contestDetail');
             Route::get('/contestRank', 'UserController@contestRank');
             Route::get('/contestProblemDetail', 'UserController@contestProblemDetail');
-
-            // help page
-            Route::get('/help', 'UserController@help');
         });
     });
 
