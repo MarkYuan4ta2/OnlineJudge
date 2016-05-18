@@ -14,7 +14,7 @@ class CreateProblemsTable extends Migration
     {
         Schema::create('problems', function (Blueprint $table) {
             $table->increments('id');//主键
-            $table->string('title', 50);//题目标题
+            $table->string('title', 50)->unique();//题目标题
             $table->longText('description');//题目描述
             $table->integer('time_limit');//时间限制
             $table->integer('memory_limit');//内存限制
