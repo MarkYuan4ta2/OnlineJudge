@@ -17,7 +17,7 @@ Route::get('/', function () {
 });
 
 // help page
-Route::get('/help', 'UserController@help');
+Route::get('/help', 'User\UserController@help');
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();

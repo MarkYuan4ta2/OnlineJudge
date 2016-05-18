@@ -13,7 +13,6 @@ class ModifyFinalTestCaseTypeInProblems extends Migration
     public function up()
     {
         Schema::table('problems', function (Blueprint $table) {
-            $table->dropColumn('final_test_case_address');//删除最终测试用例路径
             $table->string('final_test_case_address_in');//最终测试输入用例路径
             $table->string('final_test_case_address_out');//最终测试输出用例路径
             $table->string('random_key');//随机生成的特征码
@@ -28,7 +27,6 @@ class ModifyFinalTestCaseTypeInProblems extends Migration
     public function down()
     {
         Schema::table('problems', function (Blueprint $table) {
-            $table->string('final_test_case_address');//删除最终测试用例路径
             $table->dropColumn('final_test_case_address_in');//最终测试输入用例路径
             $table->dropColumn('final_test_case_address_out');//最终测试输出用例路径
             $table->dropColumn('random_key');//随机生成的特征码
