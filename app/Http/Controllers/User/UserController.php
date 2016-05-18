@@ -110,7 +110,7 @@ class UserController extends Controller
     {
         //refresh contest state
         $this->contestStateCheck();
-        
+
         $problemList = Contest::where('id', $request->id)->first()->problems()->get();
         $contest = Contest::where('id', $request->id)->first();
         $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
@@ -214,5 +214,10 @@ class UserController extends Controller
         ];
 
         return $info;
+    }
+
+    public function help()
+    {
+        return view('themes.default.User.help');
     }
 }
