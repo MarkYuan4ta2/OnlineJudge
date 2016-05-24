@@ -18,7 +18,7 @@ class CreateProblemsTable extends Migration
             $table->longText('description');//题目描述
             $table->integer('time_limit');//时间限制
             $table->integer('memory_limit');//内存限制
-            $table->enum('difficulty', ['easy', 'middle', 'hard'])->default('easy');//难度
+            $table->enum('difficulty', ['easy', 'normal', 'hard'])->default('easy');//难度
             $table->boolean('visible')->default(1);//是否可见
             $table->integer('classification')->default(0);//分类
             $table->longText('input_description');//输入描述
