@@ -21,7 +21,9 @@ class problems_seeder extends Seeder
             'input_description' => str_random(10),
             'output_description' => str_random(10),
             'created_by' => str_random(10),
-            'contest' => random_int(1, 10)
+            'contest' => random_int(1, 10),
+            'created_at' => time(),
+            'updated_at' => time()
         ]);
     }
 }

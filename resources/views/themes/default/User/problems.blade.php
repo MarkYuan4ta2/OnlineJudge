@@ -64,6 +64,7 @@
                         </tbody>
                     </table>
                 </div>
+                {!! $problemList->links() !!}
             </div>
 
             <div class="col-md-3 col-lg-3">

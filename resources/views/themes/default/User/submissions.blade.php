@@ -59,6 +59,9 @@
 
                 </tbody>
             </table>
+
+            {!! $submissions->links() !!}
+
             @if(count($submissions) == 0)
                 <p>你还没有提交记录!</p>
             @endif

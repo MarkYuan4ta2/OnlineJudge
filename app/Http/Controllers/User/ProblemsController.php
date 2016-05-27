@@ -16,7 +16,7 @@ class ProblemsController extends Controller
     function index(Request $request)
     {
         $this->refreshProblemSubmissionsCount();
-        $problemList = Problem::where('visible', 1)->orderBy('id', 'desc')->get();
+        $problemList = Problem::where('visible', 1)->orderBy('id', 'desc')->paginate(8);
 
         for ($i = 0; $i < count($problemList); $i++) {
             $problemList[$i]['accepted'] = 0;
@@ -101,7 +101,7 @@ class ProblemsController extends Controller
         } else {
             $filter = ['student_id' => $request->user()->id];
         }
-        $submissions = Submission::where($filter)->get();
+        $submissions = Submission::where($filter)->paginate(10);
         $problemList = Problem::all()->keyBy('id');
 //        dd($problemList);
         $data = [

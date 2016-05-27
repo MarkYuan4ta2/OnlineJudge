@@ -45,7 +45,7 @@ class AdminController extends Controller
 
     function listProblems(Request $request)
     {
-        $problemList = Problem::all();
+        $problemList = Problem::paginate(10);
         //get teacher user list (include admin) index by id
         $teacherList = User::where('is_admin', '>', 0)->get()->keyBy('id');
         $data = [
@@ -183,7 +183,7 @@ class AdminController extends Controller
             1 => '管理员',
             2 => '超级管理员'
         ];
-        $userList = User::all();
+        $userList = User::paginate(10);
 
         $data = [
             'userType' => $userType,

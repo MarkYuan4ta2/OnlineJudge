@@ -51,6 +51,7 @@
                 {{--<div class="form-group">--}}
                 {{--<label>仅显示可见<input type="checkbox"/></label>--}}
                 {{--</div>--}}
+                {!! $userList->links() !!}
             </div>
         </div>
     </div>
