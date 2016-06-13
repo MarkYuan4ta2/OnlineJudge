@@ -445,7 +445,7 @@ class AdminController extends Controller
         $contest->description = $request->description;
         $contest->start_time = $request->start_time;//strtotime($request->start_time);
         $contest->end_time = $request->end_time;//strtotime($request->end_time);
-        $contest->state = 'not start';
+        $contest->state = 'not_start';
         $contest->created_by = $request->user()->id;
 
         $contest->save();
