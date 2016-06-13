@@ -69,7 +69,7 @@
 
             <div class="col-md-3 col-lg-3">
                 @include('themes.default.User.announcements')
-                @include('themes.default.User.classification')
+                {{--@include('themes.default.User.classification')--}}
             </div>
         </div>
     </div>
