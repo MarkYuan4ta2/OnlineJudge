@@ -25,7 +25,7 @@
                     @foreach($applicationList as $application)
                         <tr>
                             <td>{{ $application->id }}</td>
-                            {{--<td>{{ $groupList[$application->group_id]->name }}</td>--}}
+                            <td>{{ $groupList[$application->group_id]->name }}</td>
                             <td>{{ $userList[$application->user_id]->name }}</td>
                             <td>{{ $application->addition_info }}</td>
 
